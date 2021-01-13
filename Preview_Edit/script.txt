@@ -1,0 +1,7 @@
+1. Display my location
+2. Show waterfalls
+3. show libraries
+4. clear all
+5. information about McMaster University
+6. Find McMaster University
+7. Display my location
