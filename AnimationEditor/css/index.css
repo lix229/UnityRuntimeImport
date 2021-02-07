@@ -1,0 +1,74 @@
+#cube-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  perspective: 1500px;
+}
+
+.cube {
+  position: fixed;
+  transform-style: preserve-3d;
+  animation-name: rotate;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate3d(0, 0, 0, 0);
+  }
+  100% {
+    transform: rotate3d(45, 1, 45, 360deg);
+  }
+}
+
+.face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: solid green 3px;
+}
+
+#front_face {
+  transform: translateX(-100px) translateY(-100px) translateZ(100px);
+  background: rgba(255, 0, 0, 0.5);
+}
+
+#back_face {
+  transform: translateX(-100px) translateY(-100px) translateZ(-100px);
+  background: rgba(255, 0, 255, 0.5);
+}
+
+#right_face {
+  transform: translateY(-100px) rotateY(90deg);
+  background: rgba(255, 255, 0, 0.5);
+}
+
+#left_face {
+  transform: translateY(-100px) translateX(-200px) rotateY(90deg);
+  background: rgba(0, 255, 0, 0.5);
+}
+
+#top_face {
+  transform: translateX(-100px) translateY(-200px) rotateX(90deg);
+  background: rgba(0, 255, 255, 0.5);
+}
+
+#bottom_face {
+  transform: translateX(-100px) rotateX(90deg);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.cube {
+  transform: rotateX(90deg) rotateY(90deg);
+}
+
+.background {
+  position: absolute;
+  display: flex;
+  background-color: rgba(110, 110, 110, 0.644);
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
