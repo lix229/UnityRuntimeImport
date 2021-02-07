@@ -12,6 +12,7 @@
   position: fixed;
   left: 100px;
   transform-style: preserve-3d;
+  animation-play-state: paused;
   animation-name: rotate;
   animation-duration: 30s;
   animation-timing-function: linear;

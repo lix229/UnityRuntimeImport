@@ -10,10 +10,51 @@ window.onload = function() {
 
 var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
+	console.log(animObj.style.animationPlayState);
 	if (animObj.style.animationPlayState === 'paused') {
 		animObj.style.animationPlayState = 'running';
+		document.getElementById('playStatus').innerHTML = 'PAUSE'
 	}
-	else {
+	else{
 		animObj.style.animationPlayState = 'paused';
+		document.getElementById('playStatus').innerHTML = 'PLAY'
 	}
+}
+
+var
+      stylesheet = document.styleSheets[0] // replace 0 with the number of the stylesheet that you want to modify
+    , rules = stylesheet.rules
+    , i = rules.length
+    , keyframes
+    , keyframe
+;
+
+while (i--) {
+    keyframes = rules.item(i);
+    if (
+        (
+               keyframes.type === keyframes.KEYFRAMES_RULE
+            || keyframes.type === keyframes.WEBKIT_KEYFRAMES_RULE
+        )
+        && keyframes.name === "rotate"
+    ) {
+        rules = keyframes.cssRules;
+        i = rules.length;
+        while (i--) {
+            keyframe = rules.item(i);
+            if (
+                (
+                       keyframe.type === keyframe.KEYFRAME_RULE
+                    || keyframe.type === keyframe.WEBKIT_KEYFRAME_RULE
+                )
+                && keyframe.keyText === "100%"
+            ) {
+                keyframe.style.webkitTransform =
+                keyframe.style.transform =
+                    "translate3d(0, " + "1000" + "px, 0)";
+                break;
+            }
+        }
+        break;
+    }
 }

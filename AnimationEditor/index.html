@@ -35,7 +35,7 @@
   </nav>
   <div class="menu">
     <div class="playButtonWrapper">
-      <button id="playButton" onclick="toggleAnimation()"><span>PLAY</span></button>
+      <button id="playButton" onclick="toggleAnimation()"><span id='playStatus'>PLAY</span></button>
     </div>
     
     <div class="optionsWrapper">
@@ -60,13 +60,7 @@
 
       </div>
       <div id="addFrame" class="options">
-        Add Frame 
-        <select name="addFrameOption" id="addFrameOption">
-          <option value="before">Before</option>
-          <option value="after">After</option>
-        </select>
-        this frame.
-        <button id="addFrameButton">Add</button>
+        <button id="addFrameButton">Add Keyframe here</button>
       </div>
     </div>
   </div>
