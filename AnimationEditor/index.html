@@ -33,9 +33,10 @@
       </ul>
     </div>
   </nav>
-
   <div class="menu">
-    <div class="playButtonWrapper"></div>
+    <div class="playButtonWrapper">
+      <button id="playButton"><span>PLAY</span></button>
+    </div>
     <div class="currentFrame"></div>
     <div class="optionsWrapper">
       <div id="optionTitle" class='options'> Options</div>
@@ -46,13 +47,25 @@
         <input type="text" id="rz" class="inputaxis" placeholder="z">
       </div>
       <div id="transform" class="options">
-        Transform: x y z
+        Transform:
+        <input type="text" id="tx" class="inputaxis" placeholder="x">
+        <input type="text" id="ty" class="inputaxis" placeholder="y">
+        <input type="text" id="tz" class="inputaxis" placeholder="z">
       </div>
       <div id="frametime" class="options">
-        Frametime: x ms
+        Frametime:
+        <input type="text" id="ft" class="inputaxis" placeholder="n">
+        ms
+
       </div>
       <div id="addFrame" class="options">
-        Add Frame Choice
+        Add Frame 
+        <select name="addFrameOption" id="addFrameOption">
+          <option value="before">Before</option>
+          <option value="after">After</option>
+        </select>
+        this frame.
+        <button id="addFrameButton">Add</button>
       </div>
     </div>
   </div>

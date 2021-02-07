@@ -104,4 +104,29 @@ textarea {
 .inputaxis {
   max-width: 30px;
   text-align: center;
+  height: 25px;
+}
+
+option {
+  text-align: center;
+}
+
+#playButton {
+  border: none;
+  border-radius: 50%;
+  width: 134px;
+  height: 134px;
+  transition-duration: 0.4s;
+  background-color: lightseagreen;
+  color: aliceblue;
+  font-size: 20px;
+}
+#playButton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.playButtonWrapper {
+  padding-top: 70px;
+  padding-bottom: 40px;
 }
