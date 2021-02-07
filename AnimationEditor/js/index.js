@@ -25,20 +25,27 @@ var
       stylesheet = document.styleSheets[0] // replace 0 with the number of the stylesheet that you want to modify
     , rules = stylesheet.rules
     , i = rules.length
-    , keyframes
+    , ruleItems
     , keyframe
+	, currentFrameTime = 0
+	,maxFrameTime = 0
+	,keyframeCount = 1
+	,keyFrameList = ["transform: rotate3d(0, 0, 0, 0);"]
+	,keyFrameTimes = [0]
 ;
 
 while (i--) {
-    keyframes = rules.item(i);
+    ruleItems = rules.item(i);
+	// console.log(ruleItems);
     if (
         (
-               keyframes.type === keyframes.KEYFRAMES_RULE
-            || keyframes.type === keyframes.WEBKIT_KEYFRAMES_RULE
+               ruleItems.type === ruleItems.KEYFRAMES_RULE
+            || ruleItems.type === ruleItems.WEBKIT_KEYFRAMES_RULE
         )
-        && keyframes.name === "rotate"
+        && ruleItems.name === "rotate"
     ) {
-        rules = keyframes.cssRules;
+        rules = ruleItems.cssRules;
+		console.log(rules);
         i = rules.length;
         while (i--) {
             keyframe = rules.item(i);
@@ -57,4 +64,16 @@ while (i--) {
         }
         break;
     }
+}
+
+
+var submitFrameData = function() {
+	currentFrameTime = document.getElementById('ft').value;
+	console.log(currentFrameTime)
+	if (!keyFrameTimes.includes(currentFrameTime)) {
+		keyFrameTimes.push(currentFrameTime);
+		keyFrameTimes.sort((a, b) => a - b);
+	}
+	console.log(keyFrameTimes)
+	
 }

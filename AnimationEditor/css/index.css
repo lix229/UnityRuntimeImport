@@ -14,7 +14,7 @@
   transform-style: preserve-3d;
   animation-play-state: paused;
   animation-name: rotate;
-  animation-duration: 30s;
+  animation-duration: 3000ms;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -24,7 +24,7 @@
     transform: rotate3d(0, 0, 0, 0);
   }
   100% {
-    transform: rotate3d(45, 1, 45, 360deg);
+    transform: rotate3d(45, 1, 45, 360deg) translate3d(0, 1000px, 0);
   }
 }
 
