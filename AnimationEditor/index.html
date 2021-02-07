@@ -19,31 +19,54 @@
 
 <body>
   <canvas class="background"></canvas>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Animation Editor
-            </a>
-          </div>
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Import</a></li>
-            <li><a href="#">Export</a></li>
-            </form><a></li>
-          </ul>
-        </div>
-      </nav>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Animation Editor
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Import</a></li>
+        <li><a href="#">Export</a></li>
+        </form><a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="menu">
+    <div class="playButtonWrapper"></div>
+    <div class="currentFrame"></div>
+    <div class="optionsWrapper">
+      <div id="optionTitle" class='options'> Options</div>
+      <div id="rotation" class="options">
+        Rotation:
+        <input type="text" id="rx" class="inputaxis" placeholder="x">
+        <input type="text" id="ry" class="inputaxis" placeholder="y">
+        <input type="text" id="rz" class="inputaxis" placeholder="z">
+      </div>
+      <div id="transform" class="options">
+        Transform: x y z
+      </div>
+      <div id="frametime" class="options">
+        Frametime: x ms
+      </div>
+      <div id="addFrame" class="options">
+        Add Frame Choice
+      </div>
+    </div>
+  </div>
       
 
-      <div id="cube-wrapper">
-        <div class="cube">
-          <div id="front_face" class="face"></div>
-          <div id="right_face" class="face"></div>
-          <div id="back_face" class="face"></div>
-          <div id="left_face" class="face"></div>
-          <div id="top_face" class="face"></div>
-          <div id="bottom_face" class="face"></div>
-        </div>
+    <div id="cube-wrapper">
+      <div class="cube">
+        <div id="front_face" class="face"></div>
+        <div id="right_face" class="face"></div>
+        <div id="back_face" class="face"></div>
+        <div id="left_face" class="face"></div>
+        <div id="top_face" class="face"></div>
+        <div id="bottom_face" class="face"></div>
       </div>
+    </div>
 
 </body>

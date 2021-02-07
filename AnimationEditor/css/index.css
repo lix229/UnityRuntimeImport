@@ -7,6 +7,7 @@
 
 .cube {
   position: fixed;
+  left: 100px;
   transform-style: preserve-3d;
   animation-name: rotate;
   animation-duration: 30s;
@@ -71,4 +72,36 @@
   top: 0;
   left: 0;
   z-index: 0;
+}
+
+.menu {
+  background-color: rgb(240, 239, 239);
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 90px 15px 0;
+  width: 30%;
+  max-width: 400px;
+  min-height: 900px;
+  border-radius: 7px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.options {
+  background: ivory;
+  margin: 30px auto;
+  min-height: 40px;
+}
+
+input,
+textarea {
+  width: 100%;
+  display: inline-block;
+}
+
+.inputaxis {
+  max-width: 30px;
+  text-align: center;
 }
