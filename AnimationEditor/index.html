@@ -35,11 +35,12 @@
   </nav>
   <div class="menu">
     <div class="playButtonWrapper">
-      <button id="playButton"><span>PLAY</span></button>
+      <button id="playButton" onclick="toggleAnimation()"><span>PLAY</span></button>
     </div>
-    <div class="currentFrame"></div>
+    
     <div class="optionsWrapper">
       <div id="optionTitle" class='options'> Options</div>
+      <div class="currentFrame"class='options'>Current Frame: n / x</div>
       <div id="rotation" class="options">
         Rotation:
         <input type="text" id="rx" class="inputaxis" placeholder="x">
