@@ -13,20 +13,20 @@
   left: 100px;
   transform-style: preserve-3d;
   animation-play-state: paused;
-  animation-name: rotate;
+  animation-name: animBody;
   animation-duration: 3000ms;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-@keyframes rotate {
+/* @keyframes animBody {
   0% {
     transform: rotate3d(0, 0, 0, 0);
   }
   100% {
     transform: rotate3d(45, 1, 45, 360deg) scale3d(1, 5, 1);
   }
-}
+} */
 
 .face {
   position: absolute;
