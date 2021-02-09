@@ -24,7 +24,7 @@
     transform: rotate3d(0, 0, 0, 0);
   }
   100% {
-    transform: rotate3d(45, 1, 45, 360deg) translate3d(0, 1000px, 0);
+    transform: rotate3d(45, 1, 45, 360deg) scale3d(1, 5, 1);
   }
 }
 
@@ -95,7 +95,7 @@
 
 .options {
   /* background: ivory; */
-  margin: 30px auto;
+  margin: 20px auto;
   height: 40px;
 }
 
@@ -140,7 +140,6 @@ textarea {
   position: relative;
   transition: 0.5s;
 }
-
 #playButton span:after {
   content: "\00bb";
   position: absolute;
@@ -149,11 +148,9 @@ textarea {
   right: -20px;
   transition: 0.5s;
 }
-
 #playButton:hover span {
   padding-right: 25px;
 }
-
 #playButton:hover span:after {
   opacity: 1;
   right: 0;

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animation Editor</title>
     <link rel="stylesheet" href="./css/index.css">
-    <script src="particles.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -40,7 +39,8 @@
     
     <div class="optionsWrapper">
       <div id="optionTitle" class='options'> Options</div>
-      <div class="currentFrame"class='options'>Current Frame: n / x</div>
+      <div id="currentFrame"class='options'>Current Frame: n / x</div>
+      <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div>
       <div id="rotation" class="options">
         Rotation:
         <input type="text" id="rx" class="inputaxis" placeholder="x">
@@ -48,10 +48,16 @@
         <input type="text" id="rz" class="inputaxis" placeholder="z">
       </div>
       <div id="transform" class="options">
-        Transform:
-        <input type="text" id="tx" class="inputaxis" placeholder="x">
-        <input type="text" id="ty" class="inputaxis" placeholder="y">
-        <input type="text" id="tz" class="inputaxis" placeholder="z">
+        Scale:
+        <input type="text" id="sx" class="inputaxis" placeholder="x">
+        <input type="text" id="sy" class="inputaxis" placeholder="y">
+        <input type="text" id="sz" class="inputaxis" placeholder="z">
+      </div>
+      <div id="translate" class="options">
+        Translate:
+        <input type="text" id="tlx" class="inputaxis" placeholder="x">
+        <input type="text" id="tly" class="inputaxis" placeholder="y">
+        <input type="text" id="tlz" class="inputaxis" placeholder="z">
       </div>
       <div id="frametime" class="options">
         Frametime:
