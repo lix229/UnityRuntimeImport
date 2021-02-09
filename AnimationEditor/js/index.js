@@ -68,7 +68,6 @@ var toggleAnimation = function(){
 // }
 
     ruleItems = rules.item(i);
-	console.log(animSheet)
 	animSheet.removeRule(0);
 	var newAnim = "@keyframes animBody { "
 		+ "0%" + keyFrameList[0] +
@@ -79,28 +78,65 @@ var toggleAnimation = function(){
 
 var submitFrameData = function() {
 	var 
-	  frameData = fetchNewFrameData()
-	, currentFrameTime = frameData[0]
-	, rotationData = frameData[1]
-	, scaleData = frameData[2]
-	, translateData = frameData[3]
-	
-	if (currentFrameTime.includes("") || rotationData.includes("") || scaleData.includes("") || translateData.includes("")) {
-		alert("Unfilled fields detected.")
+	  frameData = fetchNewFrameData() // Maybe don't need to unpack?
+	// , currentFrameTime = frameData[0]
+	// , rotationData = frameData[1]
+	// , scaleData = frameData[2]
+	// , translateData = frameData[3]
+	, validData = [];
+	frameData.forEach(function(value, index) {
+		if (!value.includes("")) {
+			// console.log([index, value]);
+			validData.push([index, value]);
+		}
+	});
+	// console.log(frameData);
+	console.log(validData);
+	console.log(createFrameString(validData));
+	if (frameData[0].includes("")) {
+		alert("Frametime must be filled in.");
+		return;
+	}
+	else if (validData.length === 1) {
+		alert("A keyframe must have at least 1 transformation!");
+		return;
 	}
 	else if (keyFrameTimes.includes(currentFrameTime)){
 		//TODO modify existing frame
 	}
-	else {
-		
+	else { // A new frame
+		keyFrameTimes.push(currentFrameTime[0]);
+		keyFrameTimes.sort(function(a, b){return a-b});
+		// console.log(frameString);
 	}
 	
 }
 
 var fetchNewFrameData = function() {
 	var currentFrameTime = [document.getElementById('ft').value];
-	var rotationData = [document.getElementById('rx').value, document.getElementById('ry'), document.getElementById('rz'), document.getElementById('rr')];
-	var scaleData = [document.getElementById('sx').value, document.getElementById('sy'), document.getElementById('sz')];
-	var translateData = [document.getElementById('tlx').value, document.getElementById('tly'), document.getElementById('tlz')];
+	var rotationData = [document.getElementById('rx').value, document.getElementById('ry').value, document.getElementById('rz').value, document.getElementById('rr').value];
+	var scaleData = [document.getElementById('sx').value, document.getElementById('sy').value, document.getElementById('sz').value];
+	var translateData = [document.getElementById('tlx').value, document.getElementById('tly').value, document.getElementById('tlz').value];
 	return [currentFrameTime, rotationData, scaleData, translateData]
+}
+
+var createFrameString = function(validData) {
+	alert('called');
+	var frameString = "{transform: ";
+	for (var i = 1; i < validData.length; i ++) {
+		switch (validData[i][0]) {
+			case 1:
+				frameString += "rotate3D(" + validData[i][1] + "deg) ";
+				break;
+			case 2:
+				frameString += "scale3d(" + validData[i][1] + ") ";
+				break;
+			case 3:
+				frameString += "translate3d(" + validData[i][1] + ") ";
+				break;
+		}
+	};
+	frameString += "}";
+	console.log(frameString);
+	return frameString;
 }
