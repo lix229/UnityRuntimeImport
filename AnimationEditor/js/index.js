@@ -19,7 +19,7 @@ var
     , keyframe
 	, currentFrameTime = 0
 	, keyFrameList = ["0% {transform: rotate3d(0, 0, 0, 0);}", "100% {transform: scale3d(1, 1, 1) rotate3D(10, 20, 1, 70deg);}"]
-	, keyFrameTimes = [0,1000]
+	, keyFrameTimes = [0,5000]
 ;
 
 var toggleAnimation = function(){
@@ -117,11 +117,11 @@ var submitFrameData = function() {
 		console.log(keyFrameList[2])
 		ruleItems = rules.item(i);
 		animSheet.removeRule(0);
-		var newAnim = "@keyframes animBody { "
-			+ keyFrameList[0] + "\n"
-			+ keyFrameList[1] + "\n"
-			+ keyFrameList[2] + "\n" +
-		"}";
+		var newAnim = "@keyframes animBody { ";
+		for (const frames of keyFrameList) {
+			newAnim += frames + "\n";
+		};
+		newAnim += "}";
 		animSheet.insertRule(newAnim, 0);
 		console.log(newAnim);
 		console.log(animSheet)
