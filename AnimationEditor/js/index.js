@@ -7,13 +7,15 @@ window.onload = function() {
 	});
 };
 
+// TODO use query selector instead.
+
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
 };
 
 const styleSheets = Array.from(document.styleSheets).filter(
 	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
-  ); // This no longer works on chrome due to the CORS policies being enforced by Google.
+  ); // This no longer works on Chrome due to the CORS policies being enforced by Google.
 
 var
     //   animSheet = document.styleSheets[1]
@@ -31,7 +33,7 @@ var
 var toggleAnimation = function(){
 	//TODO Add frametime support
 	var animObj = document.getElementsByClassName('cube')[0];
-	if (animObj.style.animationPlayState === 'paused') {
+	if (animObj.style.animationPlayState !== 'running') { // Not the best, but set condition to == paused will only work from second click for some reason.
 		animObj.style.animationPlayState = 'running';
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
 	}
@@ -64,9 +66,9 @@ var submitFrameData = function() {
 		alert("A keyframe must have at least 1 transformation!");
 		return;
 	}
-	// else if (keyFrameTimes.includes(currentFrameTime)){
+	else if (keyFrameTimes.includes(currentFrameTime)){
 		//TODO modify existing frame
-	// }
+	}
 	else {
 		 // A new frame
 		keyFrameTimes.push(validData[0][1][0]);
@@ -90,12 +92,6 @@ var submitFrameData = function() {
 		tagAnimObj = document.getElementsByTagName("STYLE")[0];
 		tagAnimObj.innerHTML = newAnim;
 		console.log(tagAnimObj.innerHTML);
-
-		// animSheet.insertRule(newAnim, 0);
-
-
-		// console.log(newAnim);
-		// console.log(animSheet)
 	}
 	
 }
@@ -113,7 +109,7 @@ var fetchNewFrameData = function() {
 }
 
 var createFrameString = function(validData) {
-	alert('called');
+	alert('New frame added at ' + validData[0][1] + ' ms added.');
 	var frameString = "{ transform: ";
 	for (var i = 1; i < validData.length; i ++) {
 		switch (validData[i][0]) {
@@ -130,4 +126,8 @@ var createFrameString = function(validData) {
 	};
 	frameString += "}";
 	return frameString;
+}
+
+function fetchFrameData(frametime) {
+	
 }
