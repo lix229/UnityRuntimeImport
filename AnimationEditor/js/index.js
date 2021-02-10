@@ -18,14 +18,12 @@ var
     , ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["0% {transform: rotate3d(0, 0, 0, 0);}", "100% {transform: scale3d(1, 1, 1) rotate3D(10, 20, 1, 70deg);}"]
-	, keyFrameTimes = [0,5000]
+	, keyFrameList = []
+	, keyFrameTimes = []
 ;
 
 var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
-	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
-	
 	if (animObj.style.animationPlayState === 'paused') {
 		animObj.style.animationPlayState = 'running';
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
@@ -108,18 +106,25 @@ var submitFrameData = function() {
 	// else if (keyFrameTimes.includes(currentFrameTime)){
 		//TODO modify existing frame
 	// }
-	else { // A new frame
+	else {
+		 // A new frame
 		keyFrameTimes.push(validData[0][1][0]);
 		keyFrameTimes.sort(function(a, b){return a-b});
+		var animObj = document.getElementsByClassName('cube')[0];
+		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
 		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
-		console.log(keyFrameTimes.indexOf(validData[0][1][0]));
-		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), timePer + frameString);
+		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
 		console.log(keyFrameList[2])
 		ruleItems = rules.item(i);
 		animSheet.removeRule(0);
 		var newAnim = "@keyframes animBody { ";
-		for (const frames of keyFrameList) {
-			newAnim += frames + "\n";
+		for (var i = 0; i < keyFrameTimes.length; i ++) {
+			if (keyFrameTimes.length === 1){
+				newAnim += "0% " + keyFrameList[i];
+			}
+			else {
+				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i];
+			}
 		};
 		newAnim += "}";
 		animSheet.insertRule(newAnim, 0);
