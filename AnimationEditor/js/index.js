@@ -11,16 +11,22 @@ Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
 };
 
+const styleSheets = Array.from(document.styleSheets).filter(
+	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
+  );
+
 var
-      animSheet = document.styleSheets[1] // replace 0 with the number of the animSheet that you want to modify
-    , rules = animSheet.cssRules
-    , i = rules.length
-    , ruleItems
+    //   animSheet = document.styleSheets[1]
+	// animSheet = styleSheets[1]
+    // , rules = animSheet.cssRules
+    // , i = rules.length
+     ruleItems
     , keyframe
 	, currentFrameTime = 0
 	, keyFrameList = []
 	, keyFrameTimes = []
 ;
+
 
 var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
@@ -88,12 +94,9 @@ var submitFrameData = function() {
 	, validData = [];
 	frameData.forEach(function(value, index) {
 		if (!value.includes("")) {
-			// console.log([index, value]);
 			validData.push([index, value]);
 		}
 	});
-	// console.log(frameData);
-	// console.log(validData);
 	var frameString = createFrameString(validData);
 	if (frameData[0].includes("")) {
 		alert("Frametime must be filled in.");
@@ -114,22 +117,31 @@ var submitFrameData = function() {
 		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
 		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
-		console.log(keyFrameList[2])
-		ruleItems = rules.item(i);
-		animSheet.removeRule(0);
-		var newAnim = "@keyframes animBody { ";
+		console.log(keyFrameList) // Log the animation
+
+		// ruleItems = rules.item(i);
+		// animSheet.removeRule(0);
+
+		// var newAnim = "@keyframes animBody { ";
+		var newAnim = "@keyframes animPlaceHolder { ";
 		for (var i = 0; i < keyFrameTimes.length; i ++) {
 			if (keyFrameTimes.length === 1){
-				newAnim += "0% " + keyFrameList[i];
+				newAnim += "0% " + keyFrameList[i]; //FIXME auto detect not first frame?
 			}
 			else {
-				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i];
+				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
 			}
 		};
 		newAnim += "}";
-		animSheet.insertRule(newAnim, 0);
-		console.log(newAnim);
-		console.log(animSheet)
+		tagAnimObj = document.getElementsByTagName("STYLE")[0];
+		tagAnimObj.innerHTML = newAnim;
+		console.log(tagAnimObj.innerHTML);
+
+		// animSheet.insertRule(newAnim, 0);
+
+
+		// console.log(newAnim);
+		// console.log(animSheet)
 	}
 	
 }

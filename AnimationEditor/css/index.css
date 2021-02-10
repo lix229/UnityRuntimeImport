@@ -13,7 +13,8 @@
   left: 100px;
   transform-style: preserve-3d;
   animation-play-state: paused;
-  animation-name: animBody;
+  /* animation-name: animBody; */
+  animation-name: animPlaceHolder;
   animation-duration: 3000ms;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
