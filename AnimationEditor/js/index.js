@@ -29,6 +29,7 @@ var
 
 
 var toggleAnimation = function(){
+	//TODO Add frametime support
 	var animObj = document.getElementsByClassName('cube')[0];
 	if (animObj.style.animationPlayState === 'paused') {
 		animObj.style.animationPlayState = 'running';
@@ -145,6 +146,10 @@ var submitFrameData = function() {
 	}
 	
 }
+
+//TODO remove keyframes
+//TODO Sliders for options
+//TODO Sliders for animation playback
 
 var fetchNewFrameData = function() {
 	var currentFrameTime = [document.getElementById('ft').value];
