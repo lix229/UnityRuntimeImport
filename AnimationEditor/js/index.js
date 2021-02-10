@@ -13,7 +13,7 @@ Array.prototype.insert = function ( index, item ) {
 
 const styleSheets = Array.from(document.styleSheets).filter(
 	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
-  );
+  ); // This no longer works on chrome due to the CORS policies being enforced by Google.
 
 var
     //   animSheet = document.styleSheets[1]
@@ -40,49 +40,6 @@ var toggleAnimation = function(){
 		document.getElementById('playStatus').innerHTML = 'PLAY'
 	}
 }
-
-
-
-// while (i--) {
-//     ruleItems = rules.item(i);
-// 	// console.log(ruleItems);
-//     if (
-//         (
-//                ruleItems.type === ruleItems.KEYFRAMES_RULE
-//             || ruleItems.type === ruleItems.WEBKIT_KEYFRAMES_RULE
-//         )
-//         && ruleItems.name === "animBody"
-//     ) {
-//         rules = ruleItems.cssRules;
-// 		console.log(rules);
-//         i = rules.length;
-//         while (i--) {
-//             keyframe = rules.item(i);
-//             if (
-//                 (
-//                        keyframe.type === keyframe.KEYFRAME_RULE
-//                     || keyframe.type === keyframe.WEBKIT_KEYFRAME_RULE
-//                 )
-//                 && keyframe.keyText === "100%"
-//             ) {
-//                 keyframe.style.webkitTransform =
-//                 keyframe.style.transform =
-//                     "translate3d(0, " + "1000" + "px, 0)";
-//                 break;
-//             }
-//         }
-//         break;
-//     }
-// }
-
-    // ruleItems = rules.item(i);
-	// animSheet.removeRule(0);
-	// var newAnim = "@keyframes animBody { "
-	// 	+ keyFrameList[0] +
-	// 	+ keyFrameList[1] +
-	// 	+ keyFrameList[2]
-	//   "}";
-	// animSheet.insertRule(newAnim, 0)
 
 
 var submitFrameData = function() {
@@ -120,10 +77,6 @@ var submitFrameData = function() {
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
 		console.log(keyFrameList) // Log the animation
 
-		// ruleItems = rules.item(i);
-		// animSheet.removeRule(0);
-
-		// var newAnim = "@keyframes animBody { ";
 		var newAnim = "@keyframes animPlaceHolder { ";
 		for (var i = 0; i < keyFrameTimes.length; i ++) {
 			if (keyFrameTimes.length === 1){
