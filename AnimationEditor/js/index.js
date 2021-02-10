@@ -7,6 +7,10 @@ window.onload = function() {
 	});
 };
 
+Array.prototype.insert = function ( index, item ) {
+    this.splice( index, 0, item );
+};
+
 var
       animSheet = document.styleSheets[1] // replace 0 with the number of the animSheet that you want to modify
     , rules = animSheet.cssRules
@@ -14,15 +18,14 @@ var
     , ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, maxFrameTime = 0
-	, keyframeCount = 1
-	, keyFrameList = [["{transform: rotate3d(0, 0, 0, 0);}"], ["{transform: scale3d(1, 1, 1) rotate3D(10, 20, 1, 70deg);}"]]
-	, keyFrameTimes = [0,10000]
+	, keyFrameList = ["0% {transform: rotate3d(0, 0, 0, 0);}", "100% {transform: scale3d(1, 1, 1) rotate3D(10, 20, 1, 70deg);}"]
+	, keyFrameTimes = [0,1000]
 ;
 
 var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
 	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
+	
 	if (animObj.style.animationPlayState === 'paused') {
 		animObj.style.animationPlayState = 'running';
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
@@ -67,13 +70,14 @@ var toggleAnimation = function(){
 //     }
 // }
 
-    ruleItems = rules.item(i);
-	animSheet.removeRule(0);
-	var newAnim = "@keyframes animBody { "
-		+ "0%" + keyFrameList[0] +
-		"100%" + keyFrameList[1] +
-	  "}";
-	animSheet.insertRule(newAnim, 0)
+    // ruleItems = rules.item(i);
+	// animSheet.removeRule(0);
+	// var newAnim = "@keyframes animBody { "
+	// 	+ keyFrameList[0] +
+	// 	+ keyFrameList[1] +
+	// 	+ keyFrameList[2]
+	//   "}";
+	// animSheet.insertRule(newAnim, 0)
 
 
 var submitFrameData = function() {
@@ -91,8 +95,8 @@ var submitFrameData = function() {
 		}
 	});
 	// console.log(frameData);
-	console.log(validData);
-	console.log(createFrameString(validData));
+	// console.log(validData);
+	var frameString = createFrameString(validData);
 	if (frameData[0].includes("")) {
 		alert("Frametime must be filled in.");
 		return;
@@ -101,13 +105,26 @@ var submitFrameData = function() {
 		alert("A keyframe must have at least 1 transformation!");
 		return;
 	}
-	else if (keyFrameTimes.includes(currentFrameTime)){
+	// else if (keyFrameTimes.includes(currentFrameTime)){
 		//TODO modify existing frame
-	}
+	// }
 	else { // A new frame
-		keyFrameTimes.push(currentFrameTime[0]);
+		keyFrameTimes.push(validData[0][1][0]);
 		keyFrameTimes.sort(function(a, b){return a-b});
-		// console.log(frameString);
+		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
+		console.log(keyFrameTimes.indexOf(validData[0][1][0]));
+		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), timePer + frameString);
+		console.log(keyFrameList[2])
+		ruleItems = rules.item(i);
+		animSheet.removeRule(0);
+		var newAnim = "@keyframes animBody { "
+			+ keyFrameList[0] + "\n"
+			+ keyFrameList[1] + "\n"
+			+ keyFrameList[2] + "\n" +
+		"}";
+		animSheet.insertRule(newAnim, 0);
+		console.log(newAnim);
+		console.log(animSheet)
 	}
 	
 }
@@ -122,7 +139,7 @@ var fetchNewFrameData = function() {
 
 var createFrameString = function(validData) {
 	alert('called');
-	var frameString = "{transform: ";
+	var frameString = "{ transform: ";
 	for (var i = 1; i < validData.length; i ++) {
 		switch (validData[i][0]) {
 			case 1:
@@ -137,6 +154,5 @@ var createFrameString = function(validData) {
 		}
 	};
 	frameString += "}";
-	console.log(frameString);
 	return frameString;
 }
