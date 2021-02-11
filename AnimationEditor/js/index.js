@@ -166,6 +166,12 @@ function fillInFrameData(frametime) {
 
 
 var checkExistence = function() {
+	if (document.querySelector("#ft").value !== '') {
+		toggleInputLock(1);
+	}
+	else {
+		toggleInputLock(0);
+	}
 	if (keyFrameTimes.includes(document.querySelector("#ft").value)) {
 		fillInFrameData(document.querySelector("#ft").value);
 		return true;
@@ -175,3 +181,22 @@ var checkExistence = function() {
 	}
 }
 
+var toggleInputLock = function (signal) {
+	switch (signal) {
+		case 1:
+			for (var input of document.querySelectorAll(".inputaxis")) {
+				input.disabled = false;
+			}
+			break;
+		case 0:
+			for (var input of document.querySelectorAll(".inputaxis")) {
+				input.disabled = true;
+			}
+			break;
+		default:
+			alert("You should not see this.");
+			break
+	}
+	
+	
+}
