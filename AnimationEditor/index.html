@@ -52,7 +52,7 @@
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
       <div id="frametime" class="options">
         Frametime:
-        <input type="text" id="ft" class="frameTimeInput" placeholder="0" onchange="checkExistence()">
+        <input type="text" id="ft" class="frameTimeInput" placeholder="0" onchange="checkFrameExistence()">
         ms
       </div>
       <div id="rotation" class="options">
@@ -75,7 +75,10 @@
         <input type="text" id="tlz" class="inputaxis" placeholder="0" disabled = "disabled">
       </div>
       <div id="addFrame" class="options">
-        <button id="addFrameButton" onclick="submitFrameData()">Add Keyframe here</button>
+        <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
+      </div>
+      <div class="options" id="removeFrame">
+        <button id="removeFrameButton" style="visibility: hidden;">Remove Keyframe</button>
       </div>
     </div>
   </div>

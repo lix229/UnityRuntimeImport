@@ -25,7 +25,7 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["{ }", "{ transform: translate3d(1,1,1); }"]
+	, keyFrameList = ["{transform: rotate3D(1,1,1,90deg) }", "{ transform: translate3D(2px,2px,3px); }"] // This should be empty after testing.
 	, keyFrameTimes = ["0", "3000"]
 ;
 
@@ -47,7 +47,7 @@ var toggleAnimation = function(){
 var submitFrameData = function() {
 	var 
 	  frameData = fetchNewFrameData() // Maybe don't need to unpack?
-	// , currentFrameTime = frameData[0]
+	, currentFrameTime = frameData[0]
 	// , rotationData = frameData[1]
 	// , scaleData = frameData[2]
 	// , translateData = frameData[3]
@@ -66,15 +66,30 @@ var submitFrameData = function() {
 		alert("A keyframe must have at least 1 transformation!");
 		return;
 	}
-	else if (keyFrameTimes.includes(currentFrameTime)){
-		//TODO modify existing frame
+	else if (checkFrameExistence()){
+		alert("This is called");
+		var animObj = document.getElementsByClassName('cube')[0];
+		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = frameString;
+		var newAnim = "@keyframes animPlaceHolder { ";
+		for (var i = 0; i < keyFrameTimes.length; i ++) {
+			if (keyFrameTimes.length === 1){
+				newAnim += "0% " + keyFrameList[i]; //FIXME auto detect not first frame?
+			}
+			else {
+				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
+			}
+		};
+		newAnim += "}";
+		console.log(newAnim)
+		tagAnimObj = document.getElementsByTagName("STYLE")[0];
+		tagAnimObj.innerHTML = newAnim;
 	}
 	else {
 		 // A new frame
 		keyFrameTimes.push(validData[0][1][0]);
 		keyFrameTimes.sort(function(a, b){return a-b});
 		var animObj = document.getElementsByClassName('cube')[0];
-		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
+		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms'; // Update duration to last frametime
 		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
 		// console.log(keyFrameList) // Log the animation
@@ -127,7 +142,6 @@ var createFrameString = function(validData) {
 				var data = d.join(",");
 				
 				frameString += "translate3d(" + data + ") ";
-				console.log(frameString);
 				break;
 		}
 	};
@@ -137,7 +151,7 @@ var createFrameString = function(validData) {
 
 function fillInFrameData(frametime) {
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
-	alert(frameString);
+	console.log(frameString)
 	if (frameString.includes("rotate3D")) {
 		var values = frameString.substring(frameString.indexOf("rotate3D(") + 9, frameString.indexOf(")")-3).split(",");
 		document.querySelector("#rx").value = values[0];
@@ -153,9 +167,9 @@ function fillInFrameData(frametime) {
 	}
 	else if (frameString.includes("translate3D")) {
 		var values = frameString.substring(frameString.indexOf("translate3D(") + 12, frameString.indexOf(")")).split(",");
-		document.querySelector("#sx").value = values[0];
-		document.querySelector("#sy").value = values[1];
-		document.querySelector("#sz").value = values[2];
+		document.querySelector("#tlx").value = values[0].slice(0,-2);
+		document.querySelector("#tly").value = values[1].slice(0,-2);
+		document.querySelector("#tlz").value = values[2].slice(0,-2);
 	}
 	
 	else {
@@ -165,7 +179,7 @@ function fillInFrameData(frametime) {
 };
 
 
-var checkExistence = function() {
+var checkFrameExistence = function() {
 	if (document.querySelector("#ft").value !== '') {
 		toggleInputLock(1);
 	}
@@ -174,6 +188,8 @@ var checkExistence = function() {
 	}
 	if (keyFrameTimes.includes(document.querySelector("#ft").value)) {
 		fillInFrameData(document.querySelector("#ft").value);
+		document.querySelector("#addFrameButton").innerHTML = "Update Keyframe";
+		document.querySelector("#removeFrameButton").style.visibility = "visible";
 		return true;
 	}
 	else {
@@ -187,16 +203,16 @@ var toggleInputLock = function (signal) {
 			for (var input of document.querySelectorAll(".inputaxis")) {
 				input.disabled = false;
 			}
+			document.querySelector("#addFrameButton").disabled = false;
 			break;
 		case 0:
 			for (var input of document.querySelectorAll(".inputaxis")) {
 				input.disabled = true;
 			}
+			document.querySelector("#addFrameButton").disabled = true;
 			break;
 		default:
 			alert("You should not see this.");
 			break
 	}
-	
-	
 }
