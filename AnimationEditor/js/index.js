@@ -25,8 +25,8 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = []
-	, keyFrameTimes = []
+	, keyFrameList = ["{ transform: rotate3D(1,1,1,90deg) }", "{ transform: scale3D(1,2,3) }"]
+	, keyFrameTimes = ["0", "3000"]
 ;
 
 
@@ -128,6 +128,42 @@ var createFrameString = function(validData) {
 	return frameString;
 }
 
-function fetchFrameData(frametime) {
+function fillInFrameData(frametime) {
+	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
+	alert(frameString);
+	if (frameString.includes("rotate3D")) {
+		var values = frameString.substring(frameString.indexOf("rotate3D(") + 9, frameString.indexOf(")")-3).split(",");
+		document.querySelector("#rx").value = values[0];
+		document.querySelector("#ry").value = values[1];
+		document.querySelector("#rz").value = values[2];
+		document.querySelector("#rr").value = values[3];
+	}
+	else if (frameString.includes("scale3D")){
+		var values = frameString.substring(frameString.indexOf("scale3D(") + 8, frameString.indexOf(")")).split(",");
+		document.querySelector("#sx").value = values[0];
+		document.querySelector("#sy").value = values[1];
+		document.querySelector("#sz").value = values[2];
+	}
+	else if (frameString.includes("translate3D")) {
+		var values = frameString.substring(frameString.indexOf("translate3D(") + 12, frameString.indexOf(")")).split(",");
+		document.querySelector("#sx").value = values[0];
+		document.querySelector("#sy").value = values[1];
+		document.querySelector("#sz").value = values[2];
+	}
 	
+	else {
+		return;
+	}
+	
+};
+
+
+var checkExistence = function() {
+	if (keyFrameTimes.includes(document.querySelector("#ft").value)) {
+		fillInFrameData(document.querySelector("#ft").value);
+		return true;
+	}
+	else {
+		return false;
+	}
 }

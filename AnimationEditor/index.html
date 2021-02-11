@@ -19,7 +19,7 @@
   /* TODO Default animation? */
   @keyframes animPlaceHolder {
     /* Animation for testing */
-     /* 0% { transform: rotate3D(1,1,1,90deg) }100% { transform: rotate3D(1,1,1,180deg) } */
+     0% { transform: rotate3D(1,1,1,90deg) }100% { transform: rotate3D(1,1,1,180deg) }
   }
   
 </style>
@@ -50,6 +50,11 @@
       <div id="optionTitle" class='options'> Options</div>
       <!-- <div id="currentFrame"class='options'>Current Frame: n / x</div>
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
+      <div id="frametime" class="options">
+        Frametime:
+        <input type="text" id="ft" class="inputaxis" placeholder="0" onchange="checkExistence()">
+        ms
+      </div>
       <div id="rotation" class="options">
         Rotation:
         <input type="text" id="rx" class="inputaxis" placeholder="0">
@@ -68,12 +73,6 @@
         <input type="text" id="tlx" class="inputaxis" placeholder="0">
         <input type="text" id="tly" class="inputaxis" placeholder="0">
         <input type="text" id="tlz" class="inputaxis" placeholder="0">
-      </div>
-      <div id="frametime" class="options">
-        Frametime:
-        <input type="text" id="ft" class="inputaxis" placeholder="0">
-        ms
-
       </div>
       <div id="addFrame" class="options">
         <button id="addFrameButton" onclick="submitFrameData()">Add Keyframe here</button>
