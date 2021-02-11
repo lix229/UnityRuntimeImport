@@ -25,7 +25,7 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["{ transform: rotate3D(1,1,1,90deg) }", "{ transform: scale3D(1,2,3) }"]
+	, keyFrameList = ["{ }", "{ transform: translate3d(1,1,1); }"]
 	, keyFrameTimes = ["0", "3000"]
 ;
 
@@ -77,7 +77,7 @@ var submitFrameData = function() {
 		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
 		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
-		console.log(keyFrameList) // Log the animation
+		// console.log(keyFrameList) // Log the animation
 
 		var newAnim = "@keyframes animPlaceHolder { ";
 		for (var i = 0; i < keyFrameTimes.length; i ++) {
@@ -91,7 +91,7 @@ var submitFrameData = function() {
 		newAnim += "}";
 		tagAnimObj = document.getElementsByTagName("STYLE")[0];
 		tagAnimObj.innerHTML = newAnim;
-		console.log(tagAnimObj.innerHTML);
+		// console.log(tagAnimObj.innerHTML);
 	}
 	
 }
@@ -120,7 +120,14 @@ var createFrameString = function(validData) {
 				frameString += "scale3d(" + validData[i][1] + ") ";
 				break;
 			case 3:
-				frameString += "translate3d(" + validData[i][1] + ") ";
+				var d = (validData[i][1]+'').split(",");
+				for (var i = 0; i <= 2; i++){
+					d[i] += "px";
+				}
+				var data = d.join(",");
+				
+				frameString += "translate3d(" + data + ") ";
+				console.log(frameString);
 				break;
 		}
 	};
@@ -167,3 +174,4 @@ var checkExistence = function() {
 		return false;
 	}
 }
+

@@ -19,7 +19,7 @@
   /* TODO Default animation? */
   @keyframes animPlaceHolder {
     /* Animation for testing */
-     0% { transform: rotate3D(1,1,1,90deg) }100% { transform: rotate3D(1,1,1,180deg) }
+     /* 0% { transform: rotate3D(1,1,1,90deg) }100% { transform: rotate3D(1,1,1,180deg) } */
   }
   
 </style>
@@ -52,7 +52,7 @@
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
       <div id="frametime" class="options">
         Frametime:
-        <input type="text" id="ft" class="inputaxis" placeholder="0" onchange="checkExistence()">
+        <input type="text" id="ft" class="frameTimeInput" placeholder="0" onchange="checkExistence()">
         ms
       </div>
       <div id="rotation" class="options">
