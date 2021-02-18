@@ -1,3 +1,4 @@
+// Load background
 window.onload = function() {
 	Particles.init({
 	  selector: '.background',
@@ -11,7 +12,7 @@ window.onload = function() {
 
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
-};
+}; // Function to insert item at index
 
 const styleSheets = Array.from(document.styleSheets).filter(
 	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
@@ -25,8 +26,9 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["{transform: rotate3D(1,1,1,90deg) }", "{ transform: translate3D(2px,2px,3px); }"] // This should be empty after testing.
-	, keyFrameTimes = ["0", "3000"]
+	, keyFrameList = ["{transform: scale3D(1, 1, 1)}"] // This should be empty after testing.
+	, keyFrameTimes = ["0"]
+	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
 
 
@@ -47,7 +49,7 @@ var toggleAnimation = function(){
 var submitFrameData = function() {
 	var 
 	  frameData = fetchNewFrameData() // Maybe don't need to unpack?
-	, currentFrameTime = frameData[0]
+	, currentFrameTime = frameData[0] // This is needed for updating keyframes.
 	// , rotationData = frameData[1]
 	// , scaleData = frameData[2]
 	// , translateData = frameData[3]
@@ -114,6 +116,7 @@ var submitFrameData = function() {
 //TODO remove keyframes
 //TODO Sliders for options
 //TODO Sliders for animation playback
+//TODO Instant animation?
 
 var fetchNewFrameData = function() {
 	var currentFrameTime = [document.getElementById('ft').value];
@@ -132,7 +135,7 @@ var createFrameString = function(validData) {
 				frameString += "rotate3D(" + validData[i][1] + "deg) ";
 				break;
 			case 2:
-				frameString += "scale3d(" + validData[i][1] + ") ";
+				frameString += "scale3D(" + validData[i][1] + ") ";
 				break;
 			case 3:
 				var d = (validData[i][1]+'').split(",");
@@ -141,7 +144,7 @@ var createFrameString = function(validData) {
 				}
 				var data = d.join(",");
 				
-				frameString += "translate3d(" + data + ") ";
+				frameString += "translate3D(" + data + ") ";
 				break;
 		}
 	};
@@ -150,6 +153,7 @@ var createFrameString = function(validData) {
 }
 
 function fillInFrameData(frametime) {
+	//TODO remove previously filled spaces
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
 	console.log(frameString)
 	if (frameString.includes("rotate3D")) {
@@ -185,14 +189,22 @@ var checkFrameExistence = function() {
 	}
 	else {
 		toggleInputLock(0);
+		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe";
+		document.querySelector("#removeFrameButton").style.visibility = "hidden";
 	}
 	if (keyFrameTimes.includes(document.querySelector("#ft").value)) {
+		// If keyframe exists at that frametime, fetch keyframe data and fill in the fields.
 		fillInFrameData(document.querySelector("#ft").value);
 		document.querySelector("#addFrameButton").innerHTML = "Update Keyframe";
 		document.querySelector("#removeFrameButton").style.visibility = "visible";
 		return true;
 	}
 	else {
+		// Clear Previously filled fields
+		var inputs = document.querySelectorAll('.inputaxis');
+		for (var i of inputs) {
+			i.value = ""
+		}
 		return false;
 	}
 }
@@ -213,6 +225,6 @@ var toggleInputLock = function (signal) {
 			break;
 		default:
 			alert("You should not see this.");
-			break
+			break;
 	}
 }

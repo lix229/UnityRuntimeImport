@@ -4,9 +4,6 @@
   top: 50%;
   perspective: 1500px;
 }
-.cube:hover {
-  animation-play-state: paused;
-}
 
 .cube {
   position: fixed;
@@ -15,19 +12,10 @@
   animation-play-state: paused;
   /* animation-name: animBody; */
   animation-name: animPlaceHolder;
-  animation-duration: 3000ms;
-  animation-timing-function: linear;
+  animation-duration: 5000ms;
+  /* animation-timing-function: linear; */
   animation-iteration-count: infinite;
 }
-
-/* @keyframes animBody {
-  0% {
-    transform: rotate3d(0, 0, 0, 0);
-  }
-  100% {
-    transform: rotate3d(45, 1, 45, 360deg) scale3d(1, 5, 1);
-  }
-} */
 
 .face {
   position: absolute;

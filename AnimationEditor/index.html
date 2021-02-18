@@ -19,7 +19,7 @@
   /* TODO Default animation? */
   @keyframes animPlaceHolder {
     /* Animation for testing */
-     /* 0% { transform: rotate3D(1,1,1,90deg) }100% { transform: rotate3D(1,1,1,180deg) } */
+     /* 0% {transform: scale3D(1, 1, 1)} 50% {transform: scale3D(2, 2, 2)};75% { transform: scale3D(3, 3, 3) }; 100% { transform: scale3D(5, 5, 5) }} */
   }
   
 </style>
@@ -52,27 +52,27 @@
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
       <div id="frametime" class="options">
         Frametime:
-        <input type="text" id="ft" class="frameTimeInput" placeholder="0" onchange="checkFrameExistence()">
+        <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" placeholder="0" onchange="checkFrameExistence()">
         ms
       </div>
       <div id="rotation" class="options">
         Rotation:
-        <input type="text" id="rx" class="inputaxis" placeholder="0" disabled = "disabled">
-        <input type="text" id="ry" class="inputaxis" placeholder="0" disabled = "disabled">
-        <input type="text" id="rz" class="inputaxis" placeholder="0" disabled = "disabled">
-        <input type="text" id="rr" class="inputaxis" placeholder="0" disabled = "disabled"> deg
+        <input type="text" id="rx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="ry" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="rz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="rr" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled"> deg
       </div>
       <div id="scale" class="options">
         Scale:
-        <input type="text" id="sx" class="inputaxis" placeholder="1" disabled = "disabled">
-        <input type="text" id="sy" class="inputaxis" placeholder="1" disabled = "disabled">
-        <input type="text" id="sz" class="inputaxis" placeholder="1" disabled = "disabled">
+        <input type="text" id="sx" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="sy" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="sz" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
       </div>
       <div id="translate" class="options">
         Translate:
-        <input type="text" id="tlx" class="inputaxis" placeholder="0" disabled = "disabled">
-        <input type="text" id="tly" class="inputaxis" placeholder="0" disabled = "disabled">
-        <input type="text" id="tlz" class="inputaxis" placeholder="0" disabled = "disabled">
+        <input type="text" id="tlx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="tly" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <input type="text" id="tlz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
       </div>
       <div id="addFrame" class="options">
         <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
