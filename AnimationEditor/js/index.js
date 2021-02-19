@@ -142,7 +142,7 @@ function createFrameString(validData) {
 	return frameString;
 }
 
-function fillInFrameData(frametime) { //FIXME
+function fillInFrameData(frametime) { //FIXME does not support instant animation.
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
 	console.log(frameString)
 	if (frameString.includes("rotate3D")) {
@@ -247,8 +247,11 @@ function updateAnimation() {
 			};
 			animList.push(keyFrameList[i][1]);
 		}
-		animList.push(keyFrameList[i][1]);
+		else {
+			animList.push(keyFrameList[i][1]);
+		}
 	}
+	console.log(animList);
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
