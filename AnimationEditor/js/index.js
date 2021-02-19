@@ -8,7 +8,8 @@ window.onload = function() {
 	});
 };
 
-// TODO use query selector instead.
+// TODO Multiple object support
+// TODO File IO support
 
 // Function to insert item at index
 Array.prototype.insert = function ( index, item ) {
@@ -106,7 +107,7 @@ var submitFrameData = function() {
 
 //TODO Sliders for options
 //TODO Sliders for animation playback
-//TODO Instant animation?
+
 
 function fetchNewFrameData() {
 	var currentFrameTime = [document.getElementById('ft').value];
@@ -143,7 +144,7 @@ function createFrameString(validData) {
 	return frameString;
 }
 
-function fillInFrameData(frametime) { //FIXME does not support instant animation.
+function fillInFrameData(frametime) { 
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
 	console.log(frameString)
 	if (frameString[0]=== 1) {
@@ -176,12 +177,6 @@ function fillInFrameData(frametime) { //FIXME does not support instant animation
 			document.querySelector("#tlz").value = values[2].slice(0,-2);
 		}
 	}
-
-	
-	// else {
-	// 	return;
-	// }
-	
 };
 
 
@@ -269,7 +264,7 @@ function updateAnimation() {
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
-			newAnim += "0% " + keyFrameList[i][1]; //FIXME
+			newAnim += "0% " + keyFrameList[i][1]; //FIXME Now using default first frame at 0.
 		}
 		else {
 			newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + animList[i]; 
