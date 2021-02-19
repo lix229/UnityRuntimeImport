@@ -10,9 +10,18 @@ window.onload = function() {
 
 // TODO use query selector instead.
 
+// Function to insert item at index
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
-}; // Function to insert item at index
+};
+
+function removeItem(arr, value) {
+	var index = arr.indexOf(value);
+	if (index > -1) {
+	  arr.splice(index, 1);
+	}
+	return arr;
+  }
 
 const styleSheets = Array.from(document.styleSheets).filter(
 	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
@@ -26,7 +35,7 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["{transform: scale3D(1, 1, 1)}"] // This should be empty after testing.
+	, keyFrameList = ["{transform: scale3D(1, 1, 1)} "] // This should be empty after testing.
 	, keyFrameTimes = ["0"]
 	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
@@ -53,7 +62,8 @@ var submitFrameData = function() {
 	// , rotationData = frameData[1]
 	// , scaleData = frameData[2]
 	// , translateData = frameData[3]
-	, validData = [];
+	, validData = []
+	, isInstant = document.querySelector('#isInstantCheckBox').checked;
 	frameData.forEach(function(value, index) {
 		if (!value.includes("")) {
 			validData.push([index, value]);
@@ -68,57 +78,34 @@ var submitFrameData = function() {
 		alert("A keyframe must have at least 1 transformation!");
 		return;
 	}
+	
 	else if (checkFrameExistence()){
-		alert("This is called");
+		// Update frame
+		alert("This is updated");
 		var animObj = document.getElementsByClassName('cube')[0];
 		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = frameString;
-		var newAnim = "@keyframes animPlaceHolder { ";
-		for (var i = 0; i < keyFrameTimes.length; i ++) {
-			if (keyFrameTimes.length === 1){
-				newAnim += "0% " + keyFrameList[i]; //FIXME auto detect not first frame?
-			}
-			else {
-				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
-			}
-		};
-		newAnim += "}";
-		console.log(newAnim)
-		tagAnimObj = document.getElementsByTagName("STYLE")[0];
-		tagAnimObj.innerHTML = newAnim;
+		updateAnimation();
 	}
 	else {
-		 // A new frame
+		// A new frame
 		keyFrameTimes.push(validData[0][1][0]);
 		keyFrameTimes.sort(function(a, b){return a-b});
 		var animObj = document.getElementsByClassName('cube')[0];
 		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms'; // Update duration to last frametime
-		var timePer = (validData[0][1][0]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% ";
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
-		// console.log(keyFrameList) // Log the animation
-
-		var newAnim = "@keyframes animPlaceHolder { ";
-		for (var i = 0; i < keyFrameTimes.length; i ++) {
-			if (keyFrameTimes.length === 1){
-				newAnim += "0% " + keyFrameList[i]; //FIXME auto detect not first frame?
-			}
-			else {
-				newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
-			}
-		};
-		newAnim += "}";
-		tagAnimObj = document.getElementsByTagName("STYLE")[0];
-		tagAnimObj.innerHTML = newAnim;
-		// console.log(tagAnimObj.innerHTML);
+		toggleInstant(isInstant, keyFrameTimes.indexOf(validData[0][1][0]))
+		updateAnimation();
+		checkFrameExistence();
 	}
 	
 }
 
-//TODO remove keyframes
+
 //TODO Sliders for options
 //TODO Sliders for animation playback
 //TODO Instant animation?
 
-var fetchNewFrameData = function() {
+function fetchNewFrameData() {
 	var currentFrameTime = [document.getElementById('ft').value];
 	var rotationData = [document.getElementById('rx').value, document.getElementById('ry').value, document.getElementById('rz').value, document.getElementById('rr').value];
 	var scaleData = [document.getElementById('sx').value, document.getElementById('sy').value, document.getElementById('sz').value];
@@ -126,8 +113,9 @@ var fetchNewFrameData = function() {
 	return [currentFrameTime, rotationData, scaleData, translateData]
 }
 
-var createFrameString = function(validData) {
+function createFrameString(validData) {
 	alert('New frame added at ' + validData[0][1] + ' ms added.');
+	// var frameString = (isInstant? "{animation-timing-function:steps(1, start);  transform: " : "{transform: ");
 	var frameString = "{ transform: ";
 	for (var i = 1; i < validData.length; i ++) {
 		switch (validData[i][0]) {
@@ -148,12 +136,11 @@ var createFrameString = function(validData) {
 				break;
 		}
 	};
-	frameString += "}";
+	frameString += "} ";
 	return frameString;
 }
 
-function fillInFrameData(frametime) {
-	//TODO remove previously filled spaces
+function fillInFrameData(frametime) { //FIXME
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
 	console.log(frameString)
 	if (frameString.includes("rotate3D")) {
@@ -183,7 +170,7 @@ function fillInFrameData(frametime) {
 };
 
 
-var checkFrameExistence = function() {
+function checkFrameExistence() {
 	if (document.querySelector("#ft").value !== '') {
 		toggleInputLock(1);
 	}
@@ -201,6 +188,8 @@ var checkFrameExistence = function() {
 	}
 	else {
 		// Clear Previously filled fields
+		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe";
+		document.querySelector("#removeFrameButton").style.visibility = "hidden";
 		var inputs = document.querySelectorAll('.inputaxis');
 		for (var i of inputs) {
 			i.value = ""
@@ -209,7 +198,7 @@ var checkFrameExistence = function() {
 	}
 }
 
-var toggleInputLock = function (signal) {
+function toggleInputLock(signal) {
 	switch (signal) {
 		case 1:
 			for (var input of document.querySelectorAll(".inputaxis")) {
@@ -226,5 +215,50 @@ var toggleInputLock = function (signal) {
 		default:
 			alert("You should not see this.");
 			break;
+	}
+}
+
+function removeFrame() {
+	var frameTime = document.querySelector("#ft").value;
+	if (keyFrameTimes.includes(frameTime)) {
+		// Remove framedata from the list
+		const index = keyFrameTimes.indexOf(frameTime);
+		keyFrameTimes = removeItem(keyFrameTimes, frameTime);
+		keyFrameList = removeItem(keyFrameList, keyFrameList[index]);
+
+		// Create new anim rule for obj
+		updateAnimation();
+
+		//Update interactivity.
+		checkFrameExistence();
+	}
+}
+
+function updateAnimation() {
+	var animObj = document.getElementsByClassName('cube')[0];
+	var newAnim = "@keyframes animPlaceHolder { ";
+	for (var i = 0; i < keyFrameTimes.length; i ++) {
+		if (keyFrameTimes.length === 1){
+			newAnim += "0% " + keyFrameList[i];
+		}
+		else {
+			newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
+		}
+	};
+	newAnim += "}";
+	// Update animation duration
+	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
+	var tagAnimObj = document.getElementsByTagName("STYLE")[0];
+	tagAnimObj.innerHTML = newAnim;
+
+	console.log(newAnim);
+	// console.log(animObj.style.animationDuration);
+}
+
+function toggleInstant(signal, indexToToggle) {
+	if (signal) {
+		// Change previous frame if is instant.
+		keyFrameList[indexToToggle-1] = "{ animation-timing-function:steps(1, start);" + keyFrameList[indexToToggle-1].substring(1);
+		console.log(keyFrameList[indexToToggle-1])
 	}
 }

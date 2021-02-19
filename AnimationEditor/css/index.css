@@ -12,7 +12,7 @@
   animation-play-state: paused;
   /* animation-name: animBody; */
   animation-name: animPlaceHolder;
-  animation-duration: 5000ms;
+  animation-duration: 300ms;
   /* animation-timing-function: linear; */
   animation-iteration-count: infinite;
 }

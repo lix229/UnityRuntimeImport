@@ -19,7 +19,7 @@
   /* TODO Default animation? */
   @keyframes animPlaceHolder {
     /* Animation for testing */
-     /* 0% {transform: scale3D(1, 1, 1)} 50% {transform: scale3D(2, 2, 2)};75% { transform: scale3D(3, 3, 3) }; 100% { transform: scale3D(5, 5, 5) }} */
+     0% {transform: scale3D(1, 1, 1)}; 100% {transform: scale3D(2, 2, 2)};
   }
   
 </style>
@@ -55,6 +55,9 @@
         <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" placeholder="0" onchange="checkFrameExistence()">
         ms
       </div>
+      <div class="options" id="isInstant">
+        <input type="checkbox" name="isInstant" id="isInstantCheckBox"> <label for="isInstantCheckBox">Instant Animation</label>
+      </div>
       <div id="rotation" class="options">
         Rotation:
         <input type="text" id="rx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
@@ -78,7 +81,7 @@
         <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
       </div>
       <div class="options" id="removeFrame">
-        <button id="removeFrameButton" style="visibility: hidden;">Remove Keyframe</button>
+        <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden;">Remove Keyframe</button>
       </div>
     </div>
   </div>
