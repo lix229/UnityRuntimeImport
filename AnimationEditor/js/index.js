@@ -73,6 +73,7 @@ var submitFrameData = function() {
 		}
 	});
 	var frameString = createFrameString(validData);
+	console.log(validData)
 	if (frameData[0].includes("")) {
 		alert("Frametime must be filled in.");
 		return;
@@ -145,29 +146,41 @@ function createFrameString(validData) {
 function fillInFrameData(frametime) { //FIXME does not support instant animation.
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
 	console.log(frameString)
-	if (frameString.includes("rotate3D")) {
-		var values = frameString.substring(frameString.indexOf("rotate3D(") + 9, frameString.indexOf(")")-3).split(",");
-		document.querySelector("#rx").value = values[0];
-		document.querySelector("#ry").value = values[1];
-		document.querySelector("#rz").value = values[2];
-		document.querySelector("#rr").value = values[3];
+	if (frameString[0]=== 1) {
+		document.querySelector('#isInstantCheckBox').checked = true;
 	}
-	else if (frameString.includes("scale3D")){
-		var values = frameString.substring(frameString.indexOf("scale3D(") + 8, frameString.indexOf(")")).split(",");
-		document.querySelector("#sx").value = values[0];
-		document.querySelector("#sy").value = values[1];
-		document.querySelector("#sz").value = values[2];
-	}
-	else if (frameString.includes("translate3D")) {
-		var values = frameString.substring(frameString.indexOf("translate3D(") + 12, frameString.indexOf(")")).split(",");
-		document.querySelector("#tlx").value = values[0].slice(0,-2);
-		document.querySelector("#tly").value = values[1].slice(0,-2);
-		document.querySelector("#tlz").value = values[2].slice(0,-2);
-	}
-	
 	else {
-		return;
+		document.querySelector('#isInstantCheckBox').checked = false;
 	}
+	var transforms = frameString[1].split(')');
+	for (const transform of transforms) {
+		if (transform.includes("rotate3D")) {
+			var values = transform.substring(transform.indexOf("rotate3D(") + 9).split(",");
+			document.querySelector("#rx").value = values[0];
+			document.querySelector("#ry").value = values[1];
+			document.querySelector("#rz").value = values[2];
+			document.querySelector("#rr").value = values[3].slice(0,-3);
+		}
+		if (transform.includes("scale3D")){
+			var values = transform.substring(transform.indexOf("scale3D(") + 8).split(",");
+			console.log(values);
+			document.querySelector("#sx").value = values[0];
+			document.querySelector("#sy").value = values[1];
+			document.querySelector("#sz").value = values[2];
+		}
+		if (transform.includes("translate3D")) {
+			var values = transform.substring(transform.indexOf("translate3D(") + 12).split(",");
+			console.log(values);
+			document.querySelector("#tlx").value = values[0].slice(0,-2);
+			document.querySelector("#tly").value = values[1].slice(0,-2);
+			document.querySelector("#tlz").value = values[2].slice(0,-2);
+		}
+	}
+
+	
+	// else {
+	// 	return;
+	// }
 	
 };
 
@@ -196,6 +209,7 @@ function checkFrameExistence() {
 		for (var i of inputs) {
 			i.value = ""
 		}
+		document.querySelector('#isInstantCheckBox').checked = false;
 		return false;
 	}
 }
