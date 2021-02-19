@@ -23,9 +23,10 @@ function removeItem(arr, value) {
 	return arr;
   }
 
+// This no longer works on Chrome due to the CORS policies being enforced by Google.
 const styleSheets = Array.from(document.styleSheets).filter(
 	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
-  ); // This no longer works on Chrome due to the CORS policies being enforced by Google.
+  ); 
 
 var
     //   animSheet = document.styleSheets[1]
@@ -35,7 +36,8 @@ var
      ruleItems
     , keyframe
 	, currentFrameTime = 0
-	, keyFrameList = ["{transform: scale3D(1, 1, 1)} "] // This should be empty after testing.
+	// [1 if instant 0 if not, transform data]
+	, keyFrameList = [[0, "{transform: scale3D(1, 1, 1)} "]] // This should be empty after testing.
 	, keyFrameTimes = ["0"]
 	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
@@ -64,6 +66,7 @@ var submitFrameData = function() {
 	// , translateData = frameData[3]
 	, validData = []
 	, isInstant = document.querySelector('#isInstantCheckBox').checked;
+
 	frameData.forEach(function(value, index) {
 		if (!value.includes("")) {
 			validData.push([index, value]);
@@ -83,7 +86,7 @@ var submitFrameData = function() {
 		// Update frame
 		alert("This is updated");
 		var animObj = document.getElementsByClassName('cube')[0];
-		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = frameString;
+		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = [isInstant? 1:0, frameString];
 		updateAnimation();
 	}
 	else {
@@ -92,8 +95,7 @@ var submitFrameData = function() {
 		keyFrameTimes.sort(function(a, b){return a-b});
 		var animObj = document.getElementsByClassName('cube')[0];
 		animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms'; // Update duration to last frametime
-		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), frameString);
-		toggleInstant(isInstant, keyFrameTimes.indexOf(validData[0][1][0]))
+		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), [isInstant? 1:0, frameString]);
 		updateAnimation();
 		checkFrameExistence();
 	}
@@ -237,12 +239,23 @@ function removeFrame() {
 function updateAnimation() {
 	var animObj = document.getElementsByClassName('cube')[0];
 	var newAnim = "@keyframes animPlaceHolder { ";
+	var animList = [keyFrameList[0][1]]
+	for (var i = 1; i < keyFrameList.length; i ++) {
+		if(keyFrameList[i][0] === 1) {
+			if (!animList[i-1].includes("animation-timing-function:")){
+				animList[i-1] = "{ animation-timing-function: steps(1, start);" + animList[i-1].substring(1);
+			};
+			animList.push(keyFrameList[i][1]);
+		}
+		animList.push(keyFrameList[i][1]);
+	}
+	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
-			newAnim += "0% " + keyFrameList[i];
+			newAnim += "0% " + keyFrameList[i][1]; //FIXME
 		}
 		else {
-			newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + keyFrameList[i]; 
+			newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + animList[i]; 
 		}
 	};
 	newAnim += "}";
@@ -255,10 +268,10 @@ function updateAnimation() {
 	// console.log(animObj.style.animationDuration);
 }
 
-function toggleInstant(signal, indexToToggle) {
-	if (signal) {
-		// Change previous frame if is instant.
-		keyFrameList[indexToToggle-1] = "{ animation-timing-function:steps(1, start);" + keyFrameList[indexToToggle-1].substring(1);
-		console.log(keyFrameList[indexToToggle-1])
-	}
-}
+// function toggleInstant(signal, indexToToggle) {
+// 	if (signal) {
+// 		// Change previous frame if is instant.
+// 		keyFrameList[indexToToggle-1][1] = "{ animation-timing-function: steps(1, start);" + keyFrameList[indexToToggle-1][1].substring(1);
+// 		console.log(keyFrameList[indexToToggle-1])
+// 	}
+// }
