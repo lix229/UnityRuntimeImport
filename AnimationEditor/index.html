@@ -49,10 +49,6 @@
     <div class="optionsWrapper">
       <!-- <div id="currentFrame"class='options'>Current Frame: n / x</div>
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
-      <div class="insOptions" id="isInstant">
-        <input type="checkbox" name="isInstant" id="isInstantCheckBox">
-        <label for="isInstant">Instant</label>
-      </div>
       <div id="frametime" class="options">
         <p class='optionTitle' style="float: left">Frametime:</p><br><br>
         <div class='inputWrapper'>
@@ -84,6 +80,10 @@
           y: <input type="text" id="tly" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
           z: <input type="text" id="tlz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
         </div>
+      </div>
+      <div class="insOptions" id="isInstant">
+        <input type="checkbox" name="isInstant" id="isInstantCheckBox">
+        <label for="isInstant">Instant Animation</label>
       </div>
       <div id="addFrame" class="addRemove">
         <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
