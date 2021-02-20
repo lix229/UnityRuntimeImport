@@ -47,40 +47,48 @@
     </div>
     
     <div class="optionsWrapper">
-      <div id="optionTitle" class='options'> Options</div>
       <!-- <div id="currentFrame"class='options'>Current Frame: n / x</div>
       <div id="currentFrameTime"class='options'>Current Frame Time: n / x</div> -->
-      <div id="frametime" class="options">
-        Frametime:
-        <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" placeholder="0" onchange="checkFrameExistence()">
-        ms
+      <div class="insOptions" id="isInstant">
+        <input type="checkbox" name="isInstant" id="isInstantCheckBox">
+        <label for="isInstant">Instant</label>
       </div>
-      <div class="options" id="isInstant">
-        <input type="checkbox" name="isInstant" id="isInstantCheckBox"> <label for="isInstantCheckBox">Instant Animation</label>
+      <div id="frametime" class="options">
+        <p class='optionTitle' style="float: left">Frametime:</p><br><br>
+        <div class='inputWrapper'>
+          <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" placeholder="0" onchange="checkFrameExistence()">
+          ms
+        </div>
       </div>
       <div id="rotation" class="options">
-        Rotation:
-        <input type="text" id="rx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="ry" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="rz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="rr" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled"> deg
+        <p class='optionTitle' style="float: left">Rotation:</p><br><br>
+        <div class='inputWrapper'>
+          x: <input type="text" id="rx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          y: <input type="text" id="ry" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          z: <input type="text" id="rz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          deg: <input type="text" id="rr" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        </div>
       </div>
       <div id="scale" class="options">
-        Scale:
-        <input type="text" id="sx" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="sy" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="sz" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+        <p class='optionTitle' style="float: left;">Scale:</p><br><br>
+        <div class='inputWrapper'>
+          x: <input type="text" id="sx" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+          y: <input type="text" id="sy" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+          z: <input type="text" id="sz" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+        </div>
       </div>
       <div id="translate" class="options">
-        Translate:
-        <input type="text" id="tlx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="tly" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-        <input type="text" id="tlz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        <p class='optionTitle' style="float: left">Translate:</p><br><br>
+        <div class='inputWrapper'>
+          x: <input type="text" id="tlx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          y: <input type="text" id="tly" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          z: <input type="text" id="tlz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+        </div>
       </div>
-      <div id="addFrame" class="options">
+      <div id="addFrame" class="addRemove">
         <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
       </div>
-      <div class="options" id="removeFrame">
+      <div class="addRemove" id="removeFrame">
         <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden;">Remove Keyframe</button>
       </div>
     </div>
