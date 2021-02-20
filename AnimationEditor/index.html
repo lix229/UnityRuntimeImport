@@ -42,6 +42,7 @@
     </div>
   </nav>
   <div class="menu">
+  <p>Frame Time: <span id="current"></span> ms</p>
     <div class="playButtonWrapper">
       <button id="playButton" onclick="toggleAnimation()"><span id='playStatus'>PLAY</span></button>
     </div>
@@ -91,6 +92,7 @@
       <div class="addRemove" id="removeFrame">
         <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden;">Remove Keyframe</button>
       </div>
+      <p>Animation time: <span id="time">0</span> ms</p>
     </div>
   </div>
       
@@ -106,4 +108,26 @@
       </div>
     </div>
 
+  <div class="slidecontainer">
+	  <input type="range" min="1" max="6000" value="1" class="slider" id="sframe" onchange="checkExistence()">
+	</div>
+
+<script>
+var slider = document.getElementById("sframe");
+var output = document.getElementById("current");
+output.innerHTML = slider.value;
+var ft = slider.value;
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+
+const timer = new Timer();
+// timer.start();
+setInterval(() => {
+  const currentPlayTime = timer.getTime();
+  document.getElementById('time').innerText = currentPlayTime;
+}, 1)
+
+$("#sframe").prop("value", currentPlayTime);
+</script>
 </body>
