@@ -160,10 +160,10 @@ textarea {
 
 .optionsWrapper {
   /* background-color: wheat; */
-  padding: 0 30px 20px 8%;
+  padding: 0 20px 10px 8%;
 }
 
-.options p {
+.options .optionTitle {
   background-color: lightblue;
   border-radius: 3px;
   width: 100%;

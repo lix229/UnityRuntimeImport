@@ -216,12 +216,14 @@ function toggleInputLock(signal) {
 				input.disabled = false;
 			}
 			document.querySelector("#addFrameButton").disabled = false;
+			document.querySelector("#isInstantCheckBox").disabled = false;
 			break;
 		case 0:
 			for (var input of document.querySelectorAll(".inputaxis")) {
 				input.disabled = true;
 			}
 			document.querySelector("#addFrameButton").disabled = true;
+			document.querySelector("#isInstantCheckBox").disabled = true;
 			break;
 		default:
 			alert("You should not see this.");
