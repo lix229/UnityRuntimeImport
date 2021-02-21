@@ -44,17 +44,133 @@ var
 ;
 
 
+
+
+// _______________________________________________________________________________________
+// A timer for displaying the playback time with start, stop, reset and getTime methods.
+
+// class Timer {
+// 	constructor () {
+// 	  this.isRunning = false;
+// 	  this.startTime = 0;
+// 	  this.overallTime = 0;
+// 	  }
+  
+// 	_getTimeElapsedSinceLastStart () {
+// 	  if (!this.startTime) {
+// 		return 0;
+// 	  }
+	
+// 	  return Date.now() - this.startTime;
+// 	  }
+  
+// 	start () {
+// 	  if (this.isRunning) {
+// 		return console.error('Timer is already running');
+// 	  }
+  
+// 	  this.isRunning = true;
+  
+// 	  this.startTime = Date.now();
+// 	  }
+  
+// 	stop () {
+// 	  if (!this.isRunning) {
+// 		return console.error('Timer is already stopped');
+// 	  }
+  
+// 	  this.isRunning = false;
+  
+// 	  this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
+// 	  }
+  
+// 	reset () {
+// 	  this.overallTime = 0;
+  
+// 	  if (this.isRunning) {
+// 		this.startTime = Date.now();
+// 		return;
+// 	  }
+  
+// 	  this.startTime = 0;
+// 	  }
+  
+// 	getTime () {
+// 	  if (!this.startTime) {
+// 		return 0;
+// 	  }
+  
+// 	  if (this.isRunning) {
+// 		return this.overallTime + this._getTimeElapsedSinceLastStart();
+// 	  }
+  
+// 	  return this.overallTime;
+// 	  }
+// }
+
+// const timer = new Timer();
+// // timer.start();
+// setInterval(() => {
+//   const currentPlayTime = timer.getTime();
+//   document.getElementById('time').innerText = currentPlayTime;
+// //   console.log(typeof(currentPlayTime)+currentPlayTime);
+// //   console.log(document.querySelector(".cube").style.animationDuration)
+//   document.querySelector(".cube").style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms'
+//   if (checkTimer()) {
+// 	timer = new Timer();  
+// 	}
+// }, 1)
+
+// function checkTimer() {
+	
+// 	if (document.getElementById('time').innerHTML >= document.querySelector(".cube").style.animationDuration.slice(0,-2)) {
+// 		return true;
+// 	}
+// 	return false;
+// }
+// _______________________________________________________________________________________
+
+// A rough stopwatch
+var currentTime = 0;
+var stopwatchRunning = false;
+
+function toggleStopWatch() {
+	if (stopwatchRunning) {
+		stopwatchRunning = false;
+	}
+	else {
+		stopwatchRunning = true;
+	}
+}
+
+function resetStopWatch() {
+	currentTime = 0;
+}
+
+function updateStopWatch() {
+	currentTime += 1;
+	document.querySelector("#ft").value = currentTime;
+	document.querySelector("#sliderFrame").value = currentTime;
+	if (currentTime >= keyFrameTimes[keyFrameTimes.length-1]) {
+		resetStopWatch();
+	}
+	checkFrameExistence();
+}
+
+
 var toggleAnimation = function(){
 	//TODO Add frametime support
 	var animObj = document.getElementsByClassName('cube')[0];
 	if (animObj.style.animationPlayState !== 'running') { // Not the best, but set condition to == paused will only work from second click for some reason.
 		animObj.style.animationPlayState = 'running';
-		timer.start();
+		// timer.start();
+		stopwatch = window.setInterval('updateStopWatch()', 1);
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
 	}
 	else{
 		animObj.style.animationPlayState = 'paused';
-		timer.stop();
+		window.clearInterval(stopwatch);
+		// timer.stop();
 		document.getElementById('playStatus').innerHTML = 'PLAY'
 	}
 }
@@ -183,6 +299,7 @@ function fillInFrameData(frametime) {
 
 
 function checkFrameExistence() {
+	document.querySelector("#sliderFrame").value = document.querySelector("#ft").value;
 	if (document.querySelector("#ft").value !== '') {
 		toggleInputLock(1);
 	}
@@ -264,7 +381,7 @@ function updateAnimation() {
 			animList.push(keyFrameList[i][1]);
 		}
 	}
-	console.log(animList);
+	// console.log(animList);
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
@@ -275,8 +392,9 @@ function updateAnimation() {
 		}
 	};
 	newAnim += "}";
-	// Update animation duration
+	// Update animation duration and slider maximum
 	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
+	document.querySelector("#sliderFrame").max = keyFrameTimes[keyFrameTimes.length-1];
 	var tagAnimObj = document.getElementsByTagName("STYLE")[0];
 	tagAnimObj.innerHTML = newAnim;
 
@@ -292,63 +410,20 @@ function updateAnimation() {
 // 	}
 // }
 
-// A timer for displaying the playback time with start, stop, reset and getTime methods.
 
-class Timer {
-	constructor () {
-	  this.isRunning = false;
-	  this.startTime = 0;
-	  this.overallTime = 0;
-	  }
-  
-	_getTimeElapsedSinceLastStart () {
-	  if (!this.startTime) {
-		return 0;
-	  }
-	
-	  return Date.now() - this.startTime;
-	  }
-  
-	start () {
-	  if (this.isRunning) {
-		return console.error('Timer is already running');
-	  }
-  
-	  this.isRunning = true;
-  
-	  this.startTime = Date.now();
-	  }
-  
-	stop () {
-	  if (!this.isRunning) {
-		return console.error('Timer is already stopped');
-	  }
-  
-	  this.isRunning = false;
-  
-	  this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
-	  }
-  
-	reset () {
-	  this.overallTime = 0;
-  
-	  if (this.isRunning) {
-		this.startTime = Date.now();
-		return;
-	  }
-  
-	  this.startTime = 0;
-	  }
-  
-	getTime () {
-	  if (!this.startTime) {
-		return 0;
-	  }
-  
-	  if (this.isRunning) {
-		return this.overallTime + this._getTimeElapsedSinceLastStart();
-	  }
-  
-	  return this.overallTime;
-	  }
-  }
+function sliderUpdateFrametime() {
+	var frametime = document.querySelector("#ft");
+	var slider = document.querySelector("#sliderFrame");
+	console.log(slider.value);
+	frametime.value = slider.value;
+	checkFrameExistence();
+}
+
+// frametime.value = slider.value;
+// var ft = slider.value;
+// slider.oninput = function() {
+//   output.innerHTML = this.value;
+// }
+
+
+// $("#sliderFrame").prop("value", currentPlayTime);

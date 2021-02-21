@@ -1,0 +1,108 @@
+.menu {
+  background-color: rgb(240, 239, 239);
+  position: fixed;
+  top: 20;
+  left: 0;
+  margin: 15px 15px 0;
+  width: 15.5%;
+  min-height: 170px;
+  border-radius: 7px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+.menu #speechIcon {
+  display: inline-block;
+  width: 30%;
+  max-width: 180px;
+  margin-top: 30px;
+}
+
+.menu #intro {
+  display: inline-block;
+  margin: 15px 0 10px 0;
+  color: rgb(27, 84, 117);
+  /* font-family: "Roboto Slab", serif; */
+  font-size: 22px;
+}
+
+.menu #hint {
+  display: inline-block;
+  margin: 0 0 15px 0;
+  text-align: left;
+  /* font-family: "Roboto Slab", serif; */
+  color: grey;
+}
+
+.menu #output {
+  max-width: 80%;
+  display: inline-block;
+  margin: 0 0 32px 0;
+  /* font-family: "Roboto Slab", serif; */
+  font-size: 25px;
+}
+
+.button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+  /* font-family: "Roboto Slab", serif; */
+  font-size: 12px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid #008cba;
+}
+
+.button2:hover {
+  background-color: #008cba;
+  color: white;
+}
+
+.slidecontainer {
+  width: 90%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 90%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #008cba;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #008cba;
+  cursor: pointer;
+}
