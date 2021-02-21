@@ -148,8 +148,9 @@ function resetStopWatch() {
 }
 
 function updateStopWatch() {
-	currentTime += 1;
+	currentTime += 4.07;
 	document.querySelector("#ft").value = currentTime;
+	// document.querySelector("#time").innerHTML = currentTime;
 	document.querySelector("#sliderFrame").value = currentTime;
 	if (currentTime >= keyFrameTimes[keyFrameTimes.length-1]) {
 		resetStopWatch();
@@ -163,6 +164,7 @@ var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
 	if (animObj.style.animationPlayState !== 'running') { // Not the best, but set condition to == paused will only work from second click for some reason.
 		animObj.style.animationPlayState = 'running';
+		currentTime = parseInt(document.querySelector("#ft").value);
 		// timer.start();
 		stopwatch = window.setInterval('updateStopWatch()', 1);
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
@@ -179,7 +181,7 @@ var toggleAnimation = function(){
 var submitFrameData = function() {
 	var 
 	  frameData = fetchNewFrameData() // Maybe don't need to unpack?
-	, currentFrameTime = frameData[0] // This is needed for updating keyframes.
+	, currentFrameTime = frameData[0][0] // This is needed for updating keyframes.
 	// , rotationData = frameData[1]
 	// , scaleData = frameData[2]
 	// , translateData = frameData[3]
@@ -206,7 +208,9 @@ var submitFrameData = function() {
 		// Update frame
 		alert("This is updated");
 		var animObj = document.getElementsByClassName('cube')[0];
-		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = [isInstant? 1:0, frameString];
+		console.log(keyFrameTimes);
+		console.log(currentFrameTime);
+		keyFrameList[keyFrameTimes.indexOf(currentFrameTime)] = [isInstant? 1:0, frameString];
 		updateAnimation();
 	}
 	else {
@@ -264,7 +268,6 @@ function createFrameString(validData) {
 
 function fillInFrameData(frametime) { 
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
-	console.log(frameString)
 	if (frameString[0]=== 1) {
 		document.querySelector('#isInstantCheckBox').checked = true;
 	}
@@ -282,14 +285,12 @@ function fillInFrameData(frametime) {
 		}
 		if (transform.includes("scale3D")){
 			var values = transform.substring(transform.indexOf("scale3D(") + 8).split(",");
-			console.log(values);
 			document.querySelector("#sx").value = values[0];
 			document.querySelector("#sy").value = values[1];
 			document.querySelector("#sz").value = values[2];
 		}
 		if (transform.includes("translate3D")) {
 			var values = transform.substring(transform.indexOf("translate3D(") + 12).split(",");
-			console.log(values);
 			document.querySelector("#tlx").value = values[0].slice(0,-2);
 			document.querySelector("#tly").value = values[1].slice(0,-2);
 			document.querySelector("#tlz").value = values[2].slice(0,-2);
@@ -299,7 +300,9 @@ function fillInFrameData(frametime) {
 
 
 function checkFrameExistence() {
-	document.querySelector("#sliderFrame").value = document.querySelector("#ft").value;
+	if (document.querySelector("#ft").value <= keyFrameTimes[keyFrameTimes.length-1]) {
+		document.querySelector("#sliderFrame").value = document.querySelector("#ft").value;
+	}
 	if (document.querySelector("#ft").value !== '') {
 		toggleInputLock(1);
 	}
@@ -326,6 +329,7 @@ function checkFrameExistence() {
 		document.querySelector('#isInstantCheckBox').checked = false;
 		return false;
 	}
+	
 }
 
 function toggleInputLock(signal) {
@@ -373,7 +377,7 @@ function updateAnimation() {
 	for (var i = 1; i < keyFrameList.length; i ++) {
 		if(keyFrameList[i][0] === 1) {
 			if (!animList[i-1].includes("animation-timing-function:")){
-				animList[i-1] = "{ animation-timing-function: steps(1, start);" + animList[i-1].substring(1);
+				animList[i-1] = "{ animation-timing-function: steps(1, end);" + animList[i-1].substring(1);
 			};
 			animList.push(keyFrameList[i][1]);
 		}
@@ -381,7 +385,7 @@ function updateAnimation() {
 			animList.push(keyFrameList[i][1]);
 		}
 	}
-	// console.log(animList);
+	console.log(animList);
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
@@ -414,9 +418,12 @@ function updateAnimation() {
 function sliderUpdateFrametime() {
 	var frametime = document.querySelector("#ft");
 	var slider = document.querySelector("#sliderFrame");
-	console.log(slider.value);
 	frametime.value = slider.value;
 	checkFrameExistence();
+	//TODO Slider to preview anim
+	// if (document.querySelector("#sliderFrame").value <= keyFrameTimes[keyFrameTimes.length-1]) {
+	// 	document.querySelector(".cube").style.animationDelay = '-' + document.querySelector("#ft").value + 'ms';
+	// }
 }
 
 // frametime.value = slider.value;

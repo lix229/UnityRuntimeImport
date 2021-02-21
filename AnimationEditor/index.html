@@ -42,7 +42,6 @@
     </div>
   </nav>
   <div class="menu">
-  <p>Frame Time: <span id="current"></span> ms</p>
     <div class="playButtonWrapper">
       <button id="playButton" onclick="toggleAnimation()"><span id='playStatus'>PLAY</span></button>
     </div>
@@ -53,33 +52,33 @@
       <div id="frametime" class="options">
         <p class='optionTitle' style="float: left">Frametime:</p><br><br>
         <div class='inputWrapper'>
-          <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" placeholder="0" oninput="checkFrameExistence()">
+          <input type="text" id="ft" class="frameTimeInput" onfocus="this.placeholder=''" oninput="checkFrameExistence()">
           ms
         </div>
       </div>
       <div id="rotation" class="options">
         <p class='optionTitle' style="float: left">Rotation:</p><br><br>
         <div class='inputWrapper'>
-          x: <input type="text" id="rx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-          y: <input type="text" id="ry" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-          z: <input type="text" id="rz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-          deg: <input type="text" id="rr" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          x: <input type="text" id="rx" class="inputaxis" disabled = "disabled">
+          y: <input type="text" id="ry" class="inputaxis" disabled = "disabled">
+          z: <input type="text" id="rz" class="inputaxis" disabled = "disabled">
+          deg: <input type="text" id="rr" class="inputaxis" disabled = "disabled">
         </div>
       </div>
       <div id="scale" class="options">
         <p class='optionTitle' style="float: left;">Scale:</p><br><br>
         <div class='inputWrapper'>
-          x: <input type="text" id="sx" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
-          y: <input type="text" id="sy" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
-          z: <input type="text" id="sz" class="inputaxis" placeholder="1" onfocus="this.placeholder=''" disabled = "disabled">
+          x: <input type="text" id="sx" class="inputaxis" disabled = "disabled">
+          y: <input type="text" id="sy" class="inputaxis" disabled = "disabled">
+          z: <input type="text" id="sz" class="inputaxis" disabled = "disabled">
         </div>
       </div>
       <div id="translate" class="options">
         <p class='optionTitle' style="float: left">Translate:</p><br><br>
         <div class='inputWrapper'>
-          x: <input type="text" id="tlx" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-          y: <input type="text" id="tly" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
-          z: <input type="text" id="tlz" class="inputaxis" placeholder="0" onfocus="this.placeholder=''" disabled = "disabled">
+          x: <input type="text" id="tlx" class="inputaxis" disabled = "disabled">
+          y: <input type="text" id="tly" class="inputaxis" disabled = "disabled">
+          z: <input type="text" id="tlz" class="inputaxis" disabled = "disabled">
         </div>
       </div>
       <div class="insOptions" id="isInstant">
@@ -92,7 +91,6 @@
       <div class="addRemove" id="removeFrame">
         <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden;">Remove Keyframe</button>
       </div>
-      <p>Animation time: <span id="time">0</span> ms</p>
     </div>
   </div>
       
