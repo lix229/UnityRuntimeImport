@@ -30,10 +30,10 @@ Is implemented as a web app, should work directly by running index.html. Is unde
 
 The custom animation format is modified from tradition CSV format.
 
-irst frame of an animation (sets the object slots and hierarchy) for a total of 14 commas:
+First frame of an animation (sets the object slots and hierarchy) for a total of 14 commas:
 
 ID (unique number of the object, starts at 1).  
-SlotName. 
+SlotName. <br />
 AnimationName (name of the animation).  
 ChildOf (ID that we are children of, 0 if none).  
 FrameTime in ms (useful for a "smoothing time" if not 0).  
