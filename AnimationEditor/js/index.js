@@ -40,123 +40,123 @@ var
 	// [1 if instant 0 if not, transform data]
 	, keyFrameList = [[0, "{transform: scale3D(1, 1, 1)} "]] // This should be empty after testing.
 	, keyFrameTimes = ["0"]
+	, str = "";
 	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
+// TODO Multiple object support
+function multipleObjectrun(){
+
+}
+// TODO File IO support
+function import_object(){
+	const inputElement = document.getElementById("file");
+	inputElement.addEventListener("change", handleFiles, false);
+	function handleFiles() {
+  				const file = this.files[0]; /* now you can work with the file list */
+                
+              
+                var reader = new FileReader();
+                reader.onload = function(progressEvent){
+                    // Entire file
+                //console.log(this.result);
+
+                // By lines
+                var lines = this.result.split('\n');
+                //var content = lines[0].split(',');
+                var content = [];
+                var content_list = [];
+                var str1=str2=str3 = "";
+                var kt = [];
+				str = lines[0];
+                for(var line = 1; line < lines.length; line++){
+                    //console.log(lines[line]);
+                    //lines[0] = lines[0].split(',');
+                    lines[line] = lines[line].split(',');
+
+                    // just check for importing
+                    //"{transform: scale3D(1, 1, 1)} "
+                    if(line == 1 && lines[line].length == 15){
+                        //console.log(1);
+                        content.push(lines[line][4]);
+                        str1 = "{transform: rotate3D(" + lines[line][6] + "," + lines[line][7] + "," + lines[line][8] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][9] + "," + lines[line][10] + "," + lines[line][11] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][12] + "," + lines[line][13] + "," + lines[line][14] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+						//console.log(content);
+                        content_list.push(content);
+                        kt.push((lines[line][3]).toString());
+                        content = [];
+                        //console.log(content);
+
+                    }else if(line != 1 && lines[line].length == 13){
+                        content.push(lines[line][3]);
+                        str1 = "{transform: rotate3D(" + lines[line][4] + "," + lines[line][5] + "," + lines[line][6] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][7] + "," + lines[line][8] + "," + lines[line][9] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][10] + "," + lines[line][11] + "," + lines[line][12] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+                        content_list.push(content);
+                        //console.log(content);
+                        content = [];
+                        kt.push((lines[line][2]).toString());
+                        //console.log(kt);
+
+                    }
+                    
+                    
+                
+                }
+					console.log(content_list[1]);
+					keyFrameList = content_list;
+					keyFrameTimes = kt;
+					updateAnimation();
+
+                    
+                };
+                reader.readAsText(file);
+                
+                
+            
+            }
 
 
-
-
-// _______________________________________________________________________________________
-// A timer for displaying the playback time with start, stop, reset and getTime methods.
-
-// class Timer {
-// 	constructor () {
-// 	  this.isRunning = false;
-// 	  this.startTime = 0;
-// 	  this.overallTime = 0;
-// 	  }
-  
-// 	_getTimeElapsedSinceLastStart () {
-// 	  if (!this.startTime) {
-// 		return 0;
-// 	  }
-	
-// 	  return Date.now() - this.startTime;
-// 	  }
-  
-// 	start () {
-// 	  if (this.isRunning) {
-// 		return console.error('Timer is already running');
-// 	  }
-  
-// 	  this.isRunning = true;
-  
-// 	  this.startTime = Date.now();
-// 	  }
-  
-// 	stop () {
-// 	  if (!this.isRunning) {
-// 		return console.error('Timer is already stopped');
-// 	  }
-  
-// 	  this.isRunning = false;
-  
-// 	  this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
-// 	  }
-  
-// 	reset () {
-// 	  this.overallTime = 0;
-  
-// 	  if (this.isRunning) {
-// 		this.startTime = Date.now();
-// 		return;
-// 	  }
-  
-// 	  this.startTime = 0;
-// 	  }
-  
-// 	getTime () {
-// 	  if (!this.startTime) {
-// 		return 0;
-// 	  }
-  
-// 	  if (this.isRunning) {
-// 		return this.overallTime + this._getTimeElapsedSinceLastStart();
-// 	  }
-  
-// 	  return this.overallTime;
-// 	  }
-// }
-
-// const timer = new Timer();
-// // timer.start();
-// setInterval(() => {
-//   const currentPlayTime = timer.getTime();
-//   document.getElementById('time').innerText = currentPlayTime;
-// //   console.log(typeof(currentPlayTime)+currentPlayTime);
-// //   console.log(document.querySelector(".cube").style.animationDuration)
-//   document.querySelector(".cube").style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms'
-//   if (checkTimer()) {
-// 	timer = new Timer();  
-// 	}
-// }, 1)
-
-// function checkTimer() {
-	
-// 	if (document.getElementById('time').innerHTML >= document.querySelector(".cube").style.animationDuration.slice(0,-2)) {
-// 		return true;
-// 	}
-// 	return false;
-// }
-// _______________________________________________________________________________________
-
-// A rough stopwatch
-var currentTime = 0;
-var stopwatchRunning = false;
-
-function toggleStopWatch() {
-	if (stopwatchRunning) {
-		stopwatchRunning = false;
-	}
-	else {
-		stopwatchRunning = true;
-	}
 }
 
-function resetStopWatch() {
-	currentTime = 0;
-}
 
-function updateStopWatch() {
-	currentTime += 4.07;
-	document.querySelector("#ft").value = currentTime;
-	// document.querySelector("#time").innerHTML = currentTime;
-	document.querySelector("#sliderFrame").value = currentTime;
-	if (currentTime >= keyFrameTimes[keyFrameTimes.length-1]) {
-		resetStopWatch();
+// Function to insert item at index
+Array.prototype.insert = function ( index, item ) {
+    this.splice( index, 0, item );
+};
+
+function removeItem(arr, value) {
+	var index = arr.indexOf(value);
+	if (index > -1) {
+	  arr.splice(index, 1);
 	}
-	checkFrameExistence();
-}
+	return arr;
+  }
+
+// This no longer works on Chrome due to the CORS policies being enforced by Google.
+const styleSheets = Array.from(document.styleSheets).filter(
+	(styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin)
+  ); 
+
+var
+    //   animSheet = document.styleSheets[1]
+	// animSheet = styleSheets[1]
+    // , rules = animSheet.cssRules
+    // , i = rules.length
+     ruleItems
+    , keyframe
+	, currentFrameTime = 0
+	// [1 if instant 0 if not, transform data]
+	, keyFrameList = [[0, "{transform: scale3D(1, 1, 1)} "]] // This should be empty after testing.
+	, keyFrameTimes = ["0"]
+	// There should be a keyframe at 0ms so that the animation plays correctly.
+;
 
 
 var toggleAnimation = function(){
@@ -164,15 +164,10 @@ var toggleAnimation = function(){
 	var animObj = document.getElementsByClassName('cube')[0];
 	if (animObj.style.animationPlayState !== 'running') { // Not the best, but set condition to == paused will only work from second click for some reason.
 		animObj.style.animationPlayState = 'running';
-		currentTime = parseInt(document.querySelector("#ft").value);
-		// timer.start();
-		stopwatch = window.setInterval('updateStopWatch()', 1);
 		document.getElementById('playStatus').innerHTML = 'PAUSE'
 	}
 	else{
 		animObj.style.animationPlayState = 'paused';
-		window.clearInterval(stopwatch);
-		// timer.stop();
 		document.getElementById('playStatus').innerHTML = 'PLAY'
 	}
 }
@@ -181,7 +176,7 @@ var toggleAnimation = function(){
 var submitFrameData = function() {
 	var 
 	  frameData = fetchNewFrameData() // Maybe don't need to unpack?
-	, currentFrameTime = frameData[0][0] // This is needed for updating keyframes.
+	, currentFrameTime = frameData[0] // This is needed for updating keyframes.
 	// , rotationData = frameData[1]
 	// , scaleData = frameData[2]
 	// , translateData = frameData[3]
@@ -208,9 +203,7 @@ var submitFrameData = function() {
 		// Update frame
 		alert("This is updated");
 		var animObj = document.getElementsByClassName('cube')[0];
-		console.log(keyFrameTimes);
-		console.log(currentFrameTime);
-		keyFrameList[keyFrameTimes.indexOf(currentFrameTime)] = [isInstant? 1:0, frameString];
+		keyFrameList[[keyFrameTimes.indexOf(currentFrameTime)] == -1 ? keyFrameTimes.length-1 : [keyFrameTimes.indexOf(currentFrameTime)]] = [isInstant? 1:0, frameString];
 		updateAnimation();
 	}
 	else {
@@ -268,6 +261,7 @@ function createFrameString(validData) {
 
 function fillInFrameData(frametime) { 
 	var frameString = keyFrameList[keyFrameTimes.indexOf(frametime)];
+	console.log(frameString)
 	if (frameString[0]=== 1) {
 		document.querySelector('#isInstantCheckBox').checked = true;
 	}
@@ -285,12 +279,14 @@ function fillInFrameData(frametime) {
 		}
 		if (transform.includes("scale3D")){
 			var values = transform.substring(transform.indexOf("scale3D(") + 8).split(",");
+			console.log(values);
 			document.querySelector("#sx").value = values[0];
 			document.querySelector("#sy").value = values[1];
 			document.querySelector("#sz").value = values[2];
 		}
 		if (transform.includes("translate3D")) {
 			var values = transform.substring(transform.indexOf("translate3D(") + 12).split(",");
+			console.log(values);
 			document.querySelector("#tlx").value = values[0].slice(0,-2);
 			document.querySelector("#tly").value = values[1].slice(0,-2);
 			document.querySelector("#tlz").value = values[2].slice(0,-2);
@@ -300,9 +296,6 @@ function fillInFrameData(frametime) {
 
 
 function checkFrameExistence() {
-	if (document.querySelector("#ft").value <= keyFrameTimes[keyFrameTimes.length-1]) {
-		document.querySelector("#sliderFrame").value = document.querySelector("#ft").value;
-	}
 	if (document.querySelector("#ft").value !== '') {
 		toggleInputLock(1);
 	}
@@ -329,7 +322,6 @@ function checkFrameExistence() {
 		document.querySelector('#isInstantCheckBox').checked = false;
 		return false;
 	}
-	
 }
 
 function toggleInputLock(signal) {
@@ -339,14 +331,12 @@ function toggleInputLock(signal) {
 				input.disabled = false;
 			}
 			document.querySelector("#addFrameButton").disabled = false;
-			document.querySelector("#isInstantCheckBox").disabled = false;
 			break;
 		case 0:
 			for (var input of document.querySelectorAll(".inputaxis")) {
 				input.disabled = true;
 			}
 			document.querySelector("#addFrameButton").disabled = true;
-			document.querySelector("#isInstantCheckBox").disabled = true;
 			break;
 		default:
 			alert("You should not see this.");
@@ -371,13 +361,14 @@ function removeFrame() {
 }
 
 function updateAnimation() {
+	console.log(keyFrameList);
 	var animObj = document.getElementsByClassName('cube')[0];
 	var newAnim = "@keyframes animPlaceHolder { ";
 	var animList = [keyFrameList[0][1]]
 	for (var i = 1; i < keyFrameList.length; i ++) {
 		if(keyFrameList[i][0] === 1) {
 			if (!animList[i-1].includes("animation-timing-function:")){
-				animList[i-1] = "{ animation-timing-function: steps(1, end);" + animList[i-1].substring(1);
+				animList[i-1] = "{ animation-timing-function: steps(1, start);" + animList[i-1].substring(1);
 			};
 			animList.push(keyFrameList[i][1]);
 		}
@@ -396,14 +387,50 @@ function updateAnimation() {
 		}
 	};
 	newAnim += "}";
-	// Update animation duration and slider maximum
+	// Update animation duration
 	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
-	document.querySelector("#sliderFrame").max = keyFrameTimes[keyFrameTimes.length-1];
 	var tagAnimObj = document.getElementsByTagName("STYLE")[0];
 	tagAnimObj.innerHTML = newAnim;
 
 	console.log(newAnim);
 	// console.log(animObj.style.animationDuration);
+}
+
+function export_file(){
+	console.log(str);
+	str += "\n";
+	//var str1 = "";
+	var num = 1;
+	for(var i = 0; i < keyFrameList.length; i++){
+		str += num.toString();
+		if(i == 0){
+			str += ",Object,Default,";
+		}else{
+			str += ",Default,"
+		}
+		str += keyFrameTimes[i];
+		str += ","+keyFrameList[i][0];
+		if(i == 0){
+			//TODO get the real slotName of imported Objects
+			var slot = 0
+			str += ","+ slot.toString();
+		}
+		for(var k = 1; k < keyFrameList[i].length ; k++){
+			var thenum = keyFrameList[i][k].replace( /{tr.*\(/, '');
+			thenum = thenum.replace(/\)}/,'');
+			thenum = thenum.replace(/ /, '');
+			str +=","+ thenum;
+			//console.log(str);
+		}
+		str += "\n";
+		
+
+
+	}
+	var link = document.createElement('a');
+	link.href = 'data:text/plain;charset=UTF-8,' + escape(str);
+	link.download = 'output.txt';
+	link.click();
 }
 
 // function toggleInstant(signal, indexToToggle) {
@@ -413,24 +440,3 @@ function updateAnimation() {
 // 		console.log(keyFrameList[indexToToggle-1])
 // 	}
 // }
-
-
-function sliderUpdateFrametime() {
-	var frametime = document.querySelector("#ft");
-	var slider = document.querySelector("#sliderFrame");
-	frametime.value = slider.value;
-	checkFrameExistence();
-	//TODO Slider to preview anim
-	// if (document.querySelector("#sliderFrame").value <= keyFrameTimes[keyFrameTimes.length-1]) {
-	// 	document.querySelector(".cube").style.animationDelay = '-' + document.querySelector("#ft").value + 'ms';
-	// }
-}
-
-// frametime.value = slider.value;
-// var ft = slider.value;
-// slider.oninput = function() {
-//   output.innerHTML = this.value;
-// }
-
-
-// $("#sliderFrame").prop("value", currentPlayTime);
