@@ -39,10 +39,86 @@ var
 	, currentFrameTime = 0
 	// [1 if instant 0 if not, transform data]
 	, keyFrameList = [[0, "{transform: scale3D(1, 1, 1)} "]] // This should be empty after testing.
-	, keyFrameTimes = ["0"]
+    , keyFrameTimes = ["0"]
+    , str = "";
 	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
+function import_object(){
+	const inputElement = document.getElementById("file");
+	inputElement.addEventListener("change", handleFiles, false);
+	function handleFiles() {
+  				const file = this.files[0]; /* now you can work with the file list */
+                
+              
+                var reader = new FileReader();
+                reader.onload = function(progressEvent){
+                    // Entire file
+                //console.log(this.result);
 
+                // By lines
+                var lines = this.result.split('\n');
+                //var content = lines[0].split(',');
+                var content = [];
+                var content_list = [];
+                var str1=str2=str3 = "";
+                var kt = [];
+				str = lines[0];
+                for(var line = 1; line < lines.length; line++){
+                    //console.log(lines[line]);
+                    //lines[0] = lines[0].split(',');
+                    lines[line] = lines[line].split(',');
+
+                    // just check for importing
+                    //"{transform: scale3D(1, 1, 1)} "
+                    if(line == 1 && lines[line].length == 15){
+                        //console.log(1);
+                        content.push(lines[line][4]);
+                        str1 = "{transform: rotate3D(" + lines[line][6] + "," + lines[line][7] + "," + lines[line][8] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][9] + "," + lines[line][10] + "," + lines[line][11] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][12] + "," + lines[line][13] + "," + lines[line][14] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+						//console.log(content);
+                        content_list.push(content);
+                        kt.push((lines[line][3]).toString());
+                        content = [];
+                        //console.log(content);
+
+                    }else if(line != 1 && lines[line].length == 13){
+                        content.push(lines[line][3]);
+                        str1 = "{transform: rotate3D(" + lines[line][4] + "," + lines[line][5] + "," + lines[line][6] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][7] + "," + lines[line][8] + "," + lines[line][9] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][10] + "," + lines[line][11] + "," + lines[line][12] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+                        content_list.push(content);
+                        //console.log(content);
+                        content = [];
+                        kt.push((lines[line][2]).toString());
+                        //console.log(kt);
+
+                    }
+                    
+                    
+                
+                }
+					console.log(content_list[1]);
+					keyFrameList = content_list;
+					keyFrameTimes = kt;
+					updateAnimation();
+
+                    
+                };
+                reader.readAsText(file);
+                
+                
+            
+            }
+
+
+}
 
 
 
@@ -404,6 +480,43 @@ function updateAnimation() {
 
 	console.log(newAnim);
 	// console.log(animObj.style.animationDuration);
+}
+
+function export_file(){
+	console.log(str);
+	str += "\n";
+	//var str1 = "";
+	var num = 1;
+	for(var i = 0; i < keyFrameList.length; i++){
+		str += num.toString();
+		if(i == 0){
+			str += ",Object,Default,";
+		}else{
+			str += ",Default,"
+		}
+		str += keyFrameTimes[i];
+		str += ","+keyFrameList[i][0];
+		if(i == 0){
+			//TODO get the real slotName of imported Objects
+			var slot = 0
+			str += ","+ slot.toString();
+		}
+		for(var k = 1; k < keyFrameList[i].length ; k++){
+			var thenum = keyFrameList[i][k].replace( /{tr.*\(/, '');
+			thenum = thenum.replace(/\)}/,'');
+			thenum = thenum.replace(/ /, '');
+			str +=","+ thenum;
+			//console.log(str);
+		}
+		str += "\n";
+		
+
+
+	}
+	var link = document.createElement('a');
+	link.href = 'data:text/plain;charset=UTF-8,' + escape(str);
+	link.download = 'output.txt';
+	link.click();
 }
 
 // function toggleInstant(signal, indexToToggle) {
