@@ -35,8 +35,11 @@
       </div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Import</a></li>
-        <li><a href="#">Export</a></li>
+        
+        <input type="file" name="file" id="file" oninput="import_object()">
+        <div class="exportButtonWrapper">
+          <button id="exportButton" onclick="export_file()"><span id='exportStatus'>Export</span></button>
+        </div>
         </form><a></li>
       </ul>
     </div>
@@ -110,7 +113,6 @@
 	  <input type="range" min="0" max="10000" value="0" class="slider" id="sliderFrame" oninput="sliderUpdateFrametime()">
 	</div>
 
-<script>
 
-</script>
+
 </body>
