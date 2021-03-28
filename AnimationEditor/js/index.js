@@ -161,18 +161,18 @@ var submitFrameData = function() {
 		return;
 	}
 	else if (validData.length === 1) {
-		alert("A keyframe must have at least 1 transformation!");
+		alert("Keyframe generation failed, at least one transformation needs to be fully filled in.");
 		return;
 	}
 	
 	else if (checkFrameExistence()){
 		// Update frame
-		alert("This is updated");
 		var animObj = document.getElementsByClassName('cube')[0];
 		console.log(keyFrameTimes);
 		console.log(currentFrameTime);
 		keyFrameList[keyFrameTimes.indexOf(currentFrameTime)] = [isInstant? 1:0, frameString];
 		updateAnimation();
+		alert('Existing keyframe at ' + validData[0][1][0] + ' ms updated.');
 	}
 	else {
 		// A new frame
@@ -183,6 +183,7 @@ var submitFrameData = function() {
 		keyFrameList.insert(keyFrameTimes.indexOf(validData[0][1][0]), [isInstant? 1:0, frameString]);
 		updateAnimation();
 		checkFrameExistence();
+		alert('New frame added at ' + validData[0][1][0] + ' ms added.');
 	}
 	
 }
@@ -197,7 +198,7 @@ function fetchNewFrameData() {
 }
 
 function createFrameString(validData) {
-	alert('New frame added at ' + validData[0][1] + ' ms added.');
+	// alert('New frame added at ' + validData[0][1] + ' ms added.');
 	// var frameString = (isInstant? "{animation-timing-function:steps(1, start);  transform: " : "{transform: ");
 	var frameString = "{ transform: ";
 	for (var i = 1; i < validData.length; i ++) {
