@@ -24,6 +24,8 @@
 </style>
 
 <!-- TODO Keyframe value bounds -->
+<!-- TODO File input pop up menu -->
+<!-- TODO alternative slider element -->
 
 <body>
   <canvas class="background"></canvas>
@@ -35,11 +37,12 @@
       </div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
-        
-        <input type="file" name="file" id="file" oninput="import_object()">
-        <div class="exportButtonWrapper">
-          <button id="exportButton" onclick="export_file()"><span id='exportStatus'>Export</span></button>
-        </div>
+        <li class="active"><input type="file" name="file" id="file" onclick="import_object()">Import</a></li>
+        <!-- <input type="file" name="file" id="file" oninput="import_object()"> -->
+        <li class="active"><a onclick="export_file()">Export</a></li>
+        <!-- <div class="exportButtonWrapper"> -->
+          <!-- <button id="exportButton" onclick="export_file()"><span id='exportStatus'>Export</span></button> -->
+        <!-- </div> -->
         </form><a></li>
       </ul>
     </div>
@@ -109,9 +112,9 @@
       </div>
     </div>
 
-  <div class="slidecontainer">
+  <!-- <div class="slidecontainer">
 	  <input type="range" min="0" max="10000" value="0" class="slider" id="sliderFrame" oninput="sliderUpdateFrametime()">
-	</div>
+	</div> -->
 
 
 
