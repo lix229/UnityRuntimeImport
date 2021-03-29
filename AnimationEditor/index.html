@@ -36,7 +36,7 @@
         </a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="#">Home</a></li>
+        <li><a onClick="window.location.reload();">Refresh</a></li>
         <!-- <li><input type="file" name="file" id="file" onclick="import_object()">Import</a></li> -->
         <li><a onclick="toggleFileMenu()">Import</a></li>
         <!-- <input type="file" name="file" id="file" oninput="import_object()"> -->
@@ -103,11 +103,11 @@
   <div class="file-menu-wrapper" style="display: none;">
     <p class="file-menu-header">UPLOAD FILE</p>
     <label class="custom-file-upload">
-      <input type="file" id="file-input" oninput="updateLabel()">
+      <input type="file" id="file-input" accept=".txt" oninput="updateLabel()">
       Select Local File
     </label>
       <div class="file-options-wrapper">
-      <button class="file-options-button" id="upload">UPLOAD</button>
+      <button class="file-options-button" id="upload" onclick="import_object()">UPLOAD</button>
       <button class="file-options-button" id="abort" onclick="toggleFileMenu()">ABORT</button>
     </div>
   </div>
@@ -122,10 +122,6 @@
       <div id="bottom_face" class="face"></div>
     </div>
   </div>
-
-  <!-- <div class="slidecontainer">
-	  <input type="range" min="0" max="10000" value="0" class="slider" id="sliderFrame" oninput="sliderUpdateFrametime()">
-	</div> -->
 
 
 

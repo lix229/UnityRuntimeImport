@@ -112,8 +112,6 @@ function import_object(){
                 };
                 reader.readAsText(file);
                 
-                
-            
             }
 
 
