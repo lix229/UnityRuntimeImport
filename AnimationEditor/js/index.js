@@ -396,3 +396,46 @@ function export_file(){
 	link.download = 'output.txt';
 	link.click();
 }
+
+function getFile() {
+	document.getElementById("upfile").click();
+  }
+  
+function sub(obj) {
+	var file = obj.value;
+	var fileName = file.split("\\");
+	document.getElementById("yourBtn").innerHTML = fileName[fileName.length - 1];
+	// document.myForm.submit();
+	event.preventDefault();
+}
+
+function updateLabel() {
+	var path = document.querySelector("#file-input").value
+	if (path) {
+		var startIndex = (path.indexOf('\\') >= 0 ? path.lastIndexOf('\\') : path.lastIndexOf('/'));
+		var filename = path.substring(startIndex);
+		if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+			filename = filename.substring(1);
+		}
+		document.querySelector(".custom-file-upload").innerHTML = filename
+	}
+}
+
+// function toggleFileMenu() {
+// 	var menuVisibility = document.querySelector(".file-menu-wrapper").style.visibility
+// 	if (menuVisibility == "hidden") {
+// 		document.querySelector(".file-menu-wrapper").style.visibility = "visible"
+// 	}
+// 	else {
+// 		document.querySelector(".file-menu-wrapper").style.visibility = "hidden"
+// 	}
+// }
+function toggleFileMenu() {
+	var menuVisibility = document.querySelector(".file-menu-wrapper").style.display
+	if (menuVisibility == "none") {
+		document.querySelector(".file-menu-wrapper").style.display = "block"
+	}
+	else {
+		document.querySelector(".file-menu-wrapper").style.display = "none"
+	}
+}

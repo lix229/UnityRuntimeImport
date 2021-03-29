@@ -38,7 +38,7 @@
       <ul class="nav navbar-nav">
         <li><a href="#">Home</a></li>
         <!-- <li><input type="file" name="file" id="file" onclick="import_object()">Import</a></li> -->
-        <li><a onclick="openFileMenu()">Import</a></li>
+        <li><a onclick="toggleFileMenu()">Import</a></li>
         <!-- <input type="file" name="file" id="file" oninput="import_object()"> -->
         <li><a onclick="export_file()">Export</a></li>
         <!-- <div class="exportButtonWrapper"> -->
@@ -96,22 +96,32 @@
         <button id="addFrameButton" onclick="submitFrameData()" disabled = "disabled">Add Keyframe here</button>
       </div>
       <div class="addRemove" id="removeFrame">
-        <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden;">Remove Keyframe</button>
+        <button id="removeFrameButton" onclick="removeFrame()" style="visibility: hidden; margin: 15px">Remove Keyframe</button>
       </div>
     </div>
   </div>
-      
-
-    <div id="cube-wrapper">
-      <div class="cube">
-        <div id="front_face" class="face"></div>
-        <div id="right_face" class="face"></div>
-        <div id="back_face" class="face"></div>
-        <div id="left_face" class="face"></div>
-        <div id="top_face" class="face"></div>
-        <div id="bottom_face" class="face"></div>
-      </div>
+  <div class="file-menu-wrapper" style="display: none;">
+    <p class="file-menu-header">UPLOAD FILE</p>
+    <label class="custom-file-upload">
+      <input type="file" id="file-input" oninput="updateLabel()">
+      Select Local File
+    </label>
+      <div class="file-options-wrapper">
+      <button class="file-options-button" id="upload">UPLOAD</button>
+      <button class="file-options-button" id="abort" onclick="toggleFileMenu()">ABORT</button>
     </div>
+  </div>
+
+  <div id="cube-wrapper">
+    <div class="cube">
+      <div id="front_face" class="face"></div>
+      <div id="right_face" class="face"></div>
+      <div id="back_face" class="face"></div>
+      <div id="left_face" class="face"></div>
+      <div id="top_face" class="face"></div>
+      <div id="bottom_face" class="face"></div>
+    </div>
+  </div>
 
   <!-- <div class="slidecontainer">
 	  <input type="range" min="0" max="10000" value="0" class="slider" id="sliderFrame" oninput="sliderUpdateFrametime()">

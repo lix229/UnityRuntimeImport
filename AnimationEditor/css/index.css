@@ -227,46 +227,83 @@ textarea {
   width: auto;
 }
 
-.slidecontainer {
-  width: 90%;
-  margin: 20px auto;
+.file-menu-wrapper {
   position: absolute;
-  bottom: 10%;
-  left: 5%;
+  text-align: center;
+  z-index: 100;
+  top: 30%;
+  left: 30%;
+  background-color: rgb(30, 187, 179);
+  height: 40%;
+  width: 40%;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.slider {
-  -webkit-appearance: none;
-
-  width: 90%;
-
-  height: 10px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
+.file-menu-wrapper .file-menu-header {
+  margin-top: 20%;
+  text-align: center;
+  size: 40px;
+  font-size: 50px;
+  color: white;
 }
 
-/* .slider:hover {
-  opacity: 1;
-} */
+#file-input {
+  display: none;
+}
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #008cba;
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
   cursor: pointer;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border: 2px dashed #bbb;
+  text-align: center;
+  background-color: #ddd;
+  cursor: pointer;
+  margin-top: 5%;
+  width: fit-content;
+  height: 45px;
+  font-size: 20px;
 }
 
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #008cba;
+.custom-file-upload:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(86, 115, 196);
+  color: white;
+}
+
+.file-options-wrapper {
+  margin: 5%;
+  transition-duration: 0.5s;
+}
+
+.file-options-button {
+  margin: 10px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
   cursor: pointer;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border: 1px dashed #bbb;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  font-size: 15px;
+}
+
+#upload:hover {
+  background-color: rgb(133, 201, 137);
+  color: white;
+  transition-duration: 0.3s;
+}
+
+#abort:hover {
+  background-color: rgb(202, 74, 74);
+  color: white;
+  transition-duration: 0.3s;
 }
