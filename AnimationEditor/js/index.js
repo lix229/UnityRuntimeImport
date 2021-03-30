@@ -114,7 +114,7 @@ function import_object(){
                 
             }
 
-
+	   toggleFileMenu();
 }
 
 
@@ -518,6 +518,7 @@ function toggleFileMenu() {
 		document.querySelector(".file-menu-wrapper").style.display = "block"
 	}
 	else {
-		document.querySelector(".file-menu-wrapper").style.display = "none"
+		document.querySelector(".file-menu-wrapper").style.display = "none";
+		document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' accept='.txt' onclick='updateLabel()'> Select Local File";
 	}
 }
