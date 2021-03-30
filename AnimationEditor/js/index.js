@@ -174,6 +174,17 @@ var submitFrameData = function() {
 	}
 	else {
 		// A new frame
+		
+		// check if data  is out of range before inserting the frame
+		for(i = 1; i < frameData.length; i++){
+			for(j = 0; j < frameData[i].length;j++){
+				if(Math.abs(frameData[i][j]) >= 2,147,483,647){
+					
+					alert('input data ' + frameData[i][j] +' is out of range');
+					return;
+				}
+			}
+		}
 		keyFrameTimes.push(validData[0][1][0]);
 		keyFrameTimes.sort(function(a, b){return a-b});
 		var animObj = document.getElementsByClassName('cube')[0];
