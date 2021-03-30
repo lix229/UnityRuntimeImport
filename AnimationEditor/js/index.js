@@ -419,7 +419,9 @@ function sub(obj) {
 }
 
 function updateLabel() {
-	var path = document.querySelector("#file-input").value
+	var path = document.querySelector("#file-input").value;
+	var ele = document.getElementById('file-input');
+	//ori_page = document.querySelector(".custom-file-upload").innerHTML;
 	if (path) {
 		var startIndex = (path.indexOf('\\') >= 0 ? path.lastIndexOf('\\') : path.lastIndexOf('/'));
 		var filename = path.substring(startIndex);
@@ -428,6 +430,77 @@ function updateLabel() {
 		}
 		document.querySelector(".custom-file-upload").innerHTML = filename
 	}
+
+	ele.addEventListener("change", handleFiles, false);
+	function handleFiles() {
+  				const file = this.files[0]; /* now you can work with the file list */
+                //console.log("work on file right now")
+              
+                var reader = new FileReader();
+                reader.onload = function(progressEvent){
+                    // Entire file
+                //console.log(this.result);
+
+                // By lines
+                var lines = this.result.split('\n');
+                //var content = lines[0].split(',');
+                var content = [];
+                var content_list = [];
+                var str1=str2=str3 = "";
+                var kt = [];
+				str = lines[0];
+                for(var line = 1; line < lines.length; line++){
+                    //console.log(lines[line]);
+                    //lines[0] = lines[0].split(',');
+                    lines[line] = lines[line].split(',');
+
+                    // just check for importing
+                    //"{transform: scale3D(1, 1, 1)} "
+                    if(line == 1 && lines[line].length == 15){
+                        //console.log(1);
+                        content.push(lines[line][4]);
+                        str1 = "{transform: rotate3D(" + lines[line][6] + "," + lines[line][7] + "," + lines[line][8] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][9] + "," + lines[line][10] + "," + lines[line][11] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][12] + "," + lines[line][13] + "," + lines[line][14] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+						//console.log(content);
+                        content_list.push(content);
+                        kt.push((lines[line][3]).toString());
+                        content = [];
+                        //console.log(content);
+
+                    }else if(line != 1 && lines[line].length == 13){
+                        content.push(lines[line][3]);
+                        str1 = "{transform: rotate3D(" + lines[line][4] + "," + lines[line][5] + "," + lines[line][6] + ")} ";
+                        str2 = "{transform: scale3D(" + lines[line][7] + "," + lines[line][8] + "," + lines[line][9] + ")} ";
+                        str3 = "{transform: translate3D(" + lines[line][10] + "," + lines[line][11] + "," + lines[line][12] + ")} ";
+                        content.push(str1);
+                        content.push(str2);
+                        content.push(str3);
+                        content_list.push(content);
+                        //console.log(content);
+                        content = [];
+                        kt.push((lines[line][2]).toString());
+                        //console.log(kt);
+
+                    }
+                    
+                    
+                
+                }
+					//console.log(content_list[1]);
+					keyFrameList = content_list;
+					keyFrameTimes = kt;
+					updateAnimation();
+
+                    
+                };
+                reader.readAsText(file);
+                
+            }
+
 }
 
 // function toggleFileMenu() {
