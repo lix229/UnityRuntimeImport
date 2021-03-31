@@ -41,6 +41,7 @@ var
     , keyFrameTimes = ["0"]
 	, outputStr = ''
 	, inputFile
+	, fileLines = []
 
 	// There should be a keyframe at 0ms so that the animation plays correctly.
 ;
@@ -499,40 +500,38 @@ function updateLabel() {
 function toggleFileMenu() {
 	var menuVisibility = document.querySelector(".file-menu-wrapper").style.display
 	if (menuVisibility == "none") {
-		document.querySelector(".file-menu-wrapper").style.display = "block"
+		document.querySelector(".file-menu-wrapper").style.display = "block";
 	}
 	else {
 		document.querySelector(".file-menu-wrapper").style.display = "none";
 		document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' class='file' accept='.txt' oninput='updateLabel()'>Select Local File";
 	}
+	console.log(fileLines)
 }
 
 function abortFile() {
 	// Toggles file menu and reset input queue
-	toggleFileMenu()
+	toggleFileMenu();
 	inputFile = undefined
 }
 
-function submitFile() {
-	if (!inputFile) {
-		alert('Not input file selected.')
-		return 
-	}
-	console.log(inputFile)
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-        const file = event.target.result;
-        const allLines = file.split(/\r\n|\n/);
-        // Reading line by line
-        allLines.forEach((line) => {
-            console.log(line);
-        });
-    };
-
-    reader.onerror = (event) => {
-        alert(event.target.error.name);
-    };
-
-    reader.readAsText(inputFile);
+function handleInput() {
+	console.log(fileLines)
 }
+
+document.getElementById('file-input').onchange = function(){
+
+	inputFile = this.files[0];
+  
+	var reader = new FileReader();
+	reader.onload = function(progressEvent){
+	  // Read file line by line split by line break
+	  var lines = this.result.split(/\r\n|\n/);
+	  for(var line = 0; line < lines.length; line++){
+		if (lines[line]) {
+			fileLines.push(lines[line])
+		}
+	  }
+	};
+	reader.readAsText(inputFile);
+  };
