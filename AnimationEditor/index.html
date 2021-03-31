@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/particles.min.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/index.js" defer></script>
 </head>
 
 <style>
@@ -103,12 +103,12 @@
   <div class="file-menu-wrapper" style="display: none;">
     <p class="file-menu-header">UPLOAD FILE</p>
     <label class="custom-file-upload">
-      <input type="file" id="file-input" accept=".txt" oninput="updateLabel()">
+      <input type="file" id="file-input" class='file' accept=".txt" oninput="updateLabel()">
       Select Local File
     </label>
       <div class="file-options-wrapper">
-      <button class="file-options-button" id="upload" onclick="import_object()">UPLOAD</button>
-      <button class="file-options-button" id="abort" onclick="toggleFileMenu()">ABORT</button>
+      <button class="file-options-button" id="upload" onclick="submitFile()">UPLOAD</button>
+      <button class="file-options-button" id="abort" onclick="abortFile()">ABORT</button>
     </div>
   </div>
 
