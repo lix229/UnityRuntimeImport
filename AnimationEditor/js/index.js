@@ -217,20 +217,18 @@ function createFrameString(validData) {
 	for (var i = 1; i < validData.length; i ++) {
 		switch (validData[i][0]) {
 			case 1:
+				console.log('called')
 				for (var j = 0; j < validData[i][1].length; j ++) {
-					if (validData[i][1][j] != 0) {
-						console.log(j)
-						switch (j) {
-							case 0:
-								frameString += "rotateX(" + validData[i][1][j] + "deg) ";
-								break;
-							case 1:
-								frameString += "rotateY(" + validData[i][1][j] + "deg) ";
-								break;
-							case 2:
-								frameString += "rotateZ(" + validData[i][1][j] + "deg) ";
-								break;
-						}
+					switch (j) {
+						case 0:
+							frameString += "rotateX(" + validData[i][1][j] + "deg) ";
+							break;
+						case 1:
+							frameString += "rotateY(" + validData[i][1][j] + "deg) ";
+							break;
+						case 2:
+							frameString += "rotateZ(" + validData[i][1][j] + "deg) ";
+							break;
 					}
 				}
 				break;
@@ -403,11 +401,11 @@ function updateAnimation() {
 }
 
 function export_file(){
-	if(str != ""){
-		str += "\n";
+	if(outputStr != ""){
+		outputStr += "\n";
 	}else{
-		 str = "Default,1,NA";
-		 str += "\n"
+		 outputStr = "Default,1,NA";
+		 outputStr += "\n"
 	}
 	//var str1 = "";
 	var num = 1;
@@ -563,7 +561,18 @@ function handleInput() {
 		}) // Remove first line, and first 2 entries of all the lines
 		inputFrameData[0] = inputFrameData[0].slice(2) // Remove the third and forth entry of second line
 		console.log(inputFrameData)
-	}
+		// TODO Finish input frame data generation
+		keyFrameTimes = []
+		keyFrameList = []
+		inputFrameData.forEach((frame) => {
+			keyFrameTimes.push(frame[0])
+			var validData = [[0, [frame[0]]], [1, [frame[5], frame[6], frame[7]]], [2, [frame[8], frame[9], frame[10]]], [3, [frame[2], frame[3], frame[4]]]]
+			// console.log(createFrameString(validData))
+			keyFrameList.push([frame[1], createFrameString(validData)])
+		})
+		toggleFileMenu();
+	};
+	updateAnimation();
 }
 
 
