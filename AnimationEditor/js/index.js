@@ -334,32 +334,32 @@ function export_file(){
 	}
 	//var str1 = "";
 	var num = 1;
-	for(var i = 0; i < keyFrameList.length; i++){
-		outputStr += num.toString();
-		if(i == 0){
-			outputStr += ",Object,Default,";
-		}else{
-			outputStr += ",Default,"
+	for(var k = 1; k < keyFrameList[i].length ; k++){
+		console.log(keyFrameList[i][k][10]);
+		var thenum = "";
+		var numfirst = false;
+		var numstr = "0123456789";
+		for(var j = 0; j < keyFrameList[i][k].length;j++){
+				if(numstr.includes(keyFrameList[i][k][j])){
+					thenum += keyFrameList[i][k][j];
+					numfirst = true;
+				}else{
+					if(numfirst){
+						thenum +=","
+						numfirst = false;
+					}
+				}
 		}
-		outputStr += keyFrameTimes[i];
-		outputStr += ","+keyFrameList[i][0];
-		if(i == 0){
-			//TODO get the real slotName of imported Objects
-			var slot = 0
-			outputStr += ","+ slot.toString();
-		}
-		for(var k = 1; k < keyFrameList[i].length ; k++){
-			var thenum = keyFrameList[i][k].replace( /{tr.*\(/, '');
-			thenum = thenum.replace(/\)}/,'');
-			thenum = thenum.replace(/ /, '');
-			outputStr +=","+ thenum;
-			//console.log(outputStr);
-		}
-		outputStr += "\n";
+		thenum = thenum.slice(0,-1);
+		outputStr +=","+ thenum;
+		console.log(thenum);
+	}
+	outputStr += "\n";
 		
 
 
 	}
+		
 	var link = document.createElement('a');
 	link.href = 'data:text/plain;charset=UTF-8,' + escape(outputStr);
 	link.download = 'output.txt';
@@ -390,6 +390,8 @@ function toggleFileMenu() {
 	}
 	else {
 		document.querySelector(".file-menu-wrapper").style.display = "none";
+		document.querySelector(".file-name").innerHTML = `Currently Selected: None`;
+		inputFile = undefined
 	}
 }
 
