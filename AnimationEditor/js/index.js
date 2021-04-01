@@ -373,8 +373,12 @@ function updateAnimation() {
 }
 
 function export_file(){
-	console.log(outputStr);
-	outputStr += "\n";
+	if(str != ""){
+		str += "\n";
+	}else{
+		 str = "Default,1,NA";
+		 str += "\n"
+	}
 	//var str1 = "";
 	var num = 1;
 	for(var i = 0; i < keyFrameList.length; i++){
