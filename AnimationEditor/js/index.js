@@ -39,6 +39,7 @@ var
 	// [1 if instant 0 if not, transform data]
 	, keyFrameList = [[0, "{transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} "]] // This should be empty after testing.
     , keyFrameTimes = ["0"]
+	, outputStrList = []
 	, outputStr = ''
 	, inputFile
 	, fileLines = []
@@ -309,14 +310,14 @@ function updateAnimation() {
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
-			newAnim += "0% " + keyFrameList[i][1]; //FIXME Now using default first frame at 0.
+			newAnim += "0% " + keyFrameList[i][1];
 		}
 		else {
 			newAnim += (keyFrameTimes[i]/keyFrameTimes[keyFrameTimes.length-1]*100).toFixed() + "% " + animList[i]; 
 		}
 	};
 	newAnim += "}";
-	// Update animation duration and slider maximum
+	// Update animation duration
 	animObj.style.animationDuration = keyFrameTimes[keyFrameTimes.length-1] + 'ms';
 	var tagAnimObj = document.getElementsByTagName("STYLE")[0];
 	tagAnimObj.innerHTML = newAnim;
@@ -329,41 +330,107 @@ function export_file(){
 	if(outputStr != ""){
 		outputStr += "\n";
 	}else{
-		 outputStr = "Default,1,NA";
-		 outputStr += "\n"
+		 outputStr = "Default,1,NA\n";
 	}
-	//var str1 = "";
-	var num = 1;
-	for(var k = 1; k < keyFrameList[i].length ; k++){
-		console.log(keyFrameList[i][k][10]);
-		var thenum = "";
-		var numfirst = false;
-		var numstr = "0123456789";
-		for(var j = 0; j < keyFrameList[i][k].length;j++){
-				if(numstr.includes(keyFrameList[i][k][j])){
-					thenum += keyFrameList[i][k][j];
-					numfirst = true;
-				}else{
-					if(numfirst){
-						thenum +=","
-						numfirst = false;
-					}
-				}
+	keyFrameTimes.forEach((frametime) => {
+		outputStrList.push(`1,${(keyFrameTimes.indexOf(frametime) == 0) ? 'Obj,':''}Defualt,${frametime},${keyFrameList[keyFrameTimes.indexOf(frametime)][0]},`)
+	})
+	for(var i = 0; i < keyFrameTimes.length; i++) {
+		var transform = keyFrameList[i][1].split(')');
+		transform.pop();
+		var temp = new Array();
+		temp[0] = transform[transform.length-1]; //first element is last element    
+		for(var k=1;k<transform.length;k++) { //subsequent elements start at 1
+			temp[k] = transform[k-1];
 		}
-		thenum = thenum.slice(0,-1);
-		outputStr +=","+ thenum;
-		console.log(thenum);
-	}
-	outputStr += "\n";
-		
+		transform = temp;
+		var noRotate = transform.every(function(e) {
+			return !e.includes("rotate")
+		})
+		var noTranslate = transform.every(function(e) {
+			return !e.includes("translate3D")
+		})
+		var noScale = transform.every(function(e) {
+			return !e.includes("scale3D")
+		})
 
-
-	}
+		for (var j = 0; j <transform.length; j++){
+			var trans = transform[j];
+			console.log(trans)
+			if (trans.includes("translate3D")) {
+				var values = trans.substring(trans.indexOf("translate3D(") + 12).split(",");
+				outputStrList[i] += values[0].slice(0,-2) + ",";
+				outputStrList[i] += values[1].slice(0,-2) + ",";
+				outputStrList[i] += values[2].slice(0,-2) + ",";
+			}
+			if (noTranslate) {
+				outputStrList[i] += "0,0,0,"
+				noTranslate = false
+			}
+			if (trans.includes("rotateX")) {
+				var values = trans.substring(trans.indexOf("rotateX(") + 8, trans.indexOf("deg"))
+				outputStrList[i] += values + ",";
+			}
+			if (trans.includes("rotateY")) {
+				var values = trans.substring(trans.indexOf("rotateY(") + 8, trans.indexOf("deg"))
+				outputStrList[i] += values + ",";
+			}
+			if (trans.includes("rotateZ")) {
+				var values = trans.substring(trans.indexOf("rotateZ(") + 8, trans.indexOf("deg"))
+				outputStrList[i] += values + ",";
+			}
+			if (noRotate) {
+				outputStrList[i] += "0,0,0,";
+				noRotate = false
+			}
+			if (trans.includes("scale3D")){
+				var values = trans.substring(trans.indexOf("scale3D(") + 8).split(",");
+				outputStrList[i] += values[0] + ",";
+				outputStrList[i] += values[1] + ",";
+				outputStrList[i] += values[2] + ",";
+			}
+			if (noScale) {
+				outputStrList[i] += "0,0,0,"
+				noScale = false
+			}
+		}
 		
+	}
+	for (var m = 0; m < outputStrList.length; m ++) {
+		outputStrList[m] = outputStrList[m].slice(0,-1) + '\n'
+	}
+	console.log(outputStrList)
+	outputStr += outputStrList.join('')
+	console.log(outputStr)
+	//var str1 = "";
+	// var num = 1;
+	// for(var k = 1; k < keyFrameList[i].length ; k++){
+	// 	console.log(keyFrameList[i][k][10]);
+	// 	var thenum = "";
+	// 	var numfirst = false;
+	// 	var numstr = "0123456789";
+	// 	for(var j = 0; j < keyFrameList[i][k].length;j++){
+	// 			if(numstr.includes(keyFrameList[i][k][j])){
+	// 				thenum += keyFrameList[i][k][j];
+	// 				numfirst = true;
+	// 			}else{
+	// 				if(numfirst){
+	// 					thenum +=","
+	// 					numfirst = false;
+	// 				}
+	// 			}
+	// 	}
+	// 	thenum = thenum.slice(0,-1);
+	// 	outputStr +=","+ thenum;
+	// 	console.log(thenum);
+	// }
+	// outputStr += "\n";
 	var link = document.createElement('a');
 	link.href = 'data:text/plain;charset=UTF-8,' + escape(outputStr);
 	link.download = 'output.txt';
 	link.click();
+	outputStr = '';
+	outputStrList = []
 }
 
 

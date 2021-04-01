@@ -5,6 +5,10 @@
   perspective: 1500px;
 }
 
+nav {
+  z-index: 99;
+}
+
 .cube {
   position: fixed;
   left: 100px;
