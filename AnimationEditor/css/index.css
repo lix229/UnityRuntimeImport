@@ -315,3 +315,8 @@ textarea {
     transform: rotateX(760deg);
   }
 }
+
+.file-name {
+  font-size: 20px;
+  color: rgba(63, 66, 99, 0.63);
+}
