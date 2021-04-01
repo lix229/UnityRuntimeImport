@@ -37,7 +37,7 @@ var
     , keyframe
 	, currentFrameTime = 0
 	// [1 if instant 0 if not, transform data]
-	, keyFrameList = [[0, "{transform: scale3D(1, 1, 1)} "]] // This should be empty after testing.
+	, keyFrameList = [[0, "{transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} "]] // This should be empty after testing.
     , keyFrameTimes = ["0"]
 	, outputStr = ''
 	, inputFile
@@ -169,10 +169,9 @@ var submitFrameData = function() {
 	else if (checkFrameExistence()){
 		// Update frame
 		var animObj = document.getElementsByClassName('cube')[0];
-		console.log(keyFrameTimes);
-		console.log(currentFrameTime);
 		keyFrameList[keyFrameTimes.indexOf(currentFrameTime)] = [isInstant? 1:0, frameString];
 		updateAnimation();
+		checkFrameExistence();
 		alert('Existing keyframe at ' + validData[0][1][0] + ' ms updated.');
 	}
 	else {
@@ -203,20 +202,37 @@ var submitFrameData = function() {
 
 function fetchNewFrameData() {
 	var currentFrameTime = [document.getElementById('ft').value];
-	var rotationData = [document.getElementById('rx').value, document.getElementById('ry').value, document.getElementById('rz').value, document.getElementById('rr').value];
+	// var rotationData = [document.getElementById('rx').value, document.getElementById('ry').value, document.getElementById('rz').value, document.getElementById('rr').value];
+	var rotationData = [document.getElementById('rx').value, document.getElementById('ry').value, document.getElementById('rz').value];
 	var scaleData = [document.getElementById('sx').value, document.getElementById('sy').value, document.getElementById('sz').value];
 	var translateData = [document.getElementById('tlx').value, document.getElementById('tly').value, document.getElementById('tlz').value];
 	return [currentFrameTime, rotationData, scaleData, translateData]
 }
 
 function createFrameString(validData) {
+	console.log(validData)
 	// alert('New frame added at ' + validData[0][1] + ' ms added.');
 	// var frameString = (isInstant? "{animation-timing-function:steps(1, start);  transform: " : "{transform: ");
 	var frameString = "{ transform: ";
 	for (var i = 1; i < validData.length; i ++) {
 		switch (validData[i][0]) {
 			case 1:
-				frameString += "rotate3D(" + validData[i][1] + "deg) ";
+				for (var j = 0; j < validData[i][1].length; j ++) {
+					if (validData[i][1][j] != 0) {
+						console.log(j)
+						switch (j) {
+							case 0:
+								frameString += "rotateX(" + validData[i][1][j] + "deg) ";
+								break;
+							case 1:
+								frameString += "rotateY(" + validData[i][1][j] + "deg) ";
+								break;
+							case 2:
+								frameString += "rotateZ(" + validData[i][1][j] + "deg) ";
+								break;
+						}
+					}
+				}
 				break;
 			case 2:
 				frameString += "scale3D(" + validData[i][1] + ") ";
@@ -233,6 +249,7 @@ function createFrameString(validData) {
 		}
 	};
 	frameString += "} ";
+	console.log(frameString)
 	return frameString;
 }
 
@@ -246,12 +263,25 @@ function fillInFrameData(frametime) {
 	}
 	var transforms = frameString[1].split(')');
 	for (const transform of transforms) {
-		if (transform.includes("rotate3D")) {
-			var values = transform.substring(transform.indexOf("rotate3D(") + 9).split(",");
-			document.querySelector("#rx").value = values[0];
-			document.querySelector("#ry").value = values[1];
-			document.querySelector("#rz").value = values[2];
-			document.querySelector("#rr").value = values[3].slice(0,-3);
+		// if (transform.includes("rotate3D")) {
+		// 	var values = transform.substring(transform.indexOf("rotate3D(") + 9).split(",");
+		// 	console.log(values)
+		// 	document.querySelector("#rx").value = values[0];
+		// 	document.querySelector("#ry").value = values[1];
+		// 	document.querySelector("#rz").value = values[2];
+		// 	document.querySelector("#rr").value = values[3].slice(0,-3);
+		// }
+		if (transform.includes("rotateX")) {
+			var values = transform.substring(transform.indexOf("rotateX(") + 8, transform.indexOf("deg"))
+			document.querySelector("#rx").value = values;
+		}
+		if (transform.includes("rotateY")) {
+			var values = transform.substring(transform.indexOf("rotateY(") + 8, transform.indexOf("deg"))
+			document.querySelector("#ry").value = values;
+		}
+		if (transform.includes("rotateZ")) {
+			var values = transform.substring(transform.indexOf("rotateZ(") + 8, transform.indexOf("deg"))
+			document.querySelector("#rz").value = values;
 		}
 		if (transform.includes("scale3D")){
 			var values = transform.substring(transform.indexOf("scale3D(") + 8).split(",");
@@ -352,7 +382,7 @@ function updateAnimation() {
 			animList.push(keyFrameList[i][1]);
 		}
 	}
-	console.log(animList);
+	// console.log(animList);
 	
 	for (var i = 0; i < keyFrameTimes.length; i ++) {
 		if (keyFrameTimes.length === 1){
@@ -373,7 +403,6 @@ function updateAnimation() {
 }
 
 function export_file(){
-	console.log(outputStr);
 	outputStr += "\n";
 	//var str1 = "";
 	var num = 1;
@@ -505,7 +534,6 @@ function toggleFileMenu() {
 	}
 	else {
 		document.querySelector(".file-menu-wrapper").style.display = "none";
-		document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' class='file' accept='.txt' oninput='updateLabel()'>Select Local File";
 	}
 }
 
@@ -521,16 +549,22 @@ function handleInput() {
 		alert("No file selected.")
 		return
 	}
-	// console.log(fileLines)
 	if (checkFormat()) {
-		console.log('input sec')
+		alert("File loaded successfully.")
+		// TODO Multi animation support
+		var inputFrameData = []
+		fileLines.slice(1).forEach((line) => {
+			inputFrameData.push(line.split(',').slice(2))
+		}) // Remove first line, and first 2 entries of all the lines
+		inputFrameData[0] = inputFrameData[0].slice(2) // Remove the third and forth entry of second line
+		console.log(inputFrameData)
 	}
 }
 
 
   function checkFormat() {
 	  function terminateInput() {
-		// document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' class='file' accept='.txt'>Select Local File";
+		document.querySelector(".file-name").innerHTML = `Currently Selected: None`;
 		alert("Incorrect format.")
 		inputFile = undefined
 		fileLines = []
@@ -557,8 +591,7 @@ function handleInput() {
 			  }
 			  var transData = rawFrames[i].slice(2)
 			  transData.forEach((entry) => {
-				  if (isNaN(entry)){
-					console.log(entry)
+				  if (isNaN(entry)){// Check if transactions are all numbers
 					  return terminateInput()
 				  }
 			  })
@@ -572,7 +605,7 @@ function handleInput() {
 			  }
 			  var transData = rawFrames[i].slice(3)
 			  transData.forEach((entry) => {
-				  if (isNaN(entry)){
+				  if (isNaN(entry)){ // Check if transactions are all numbers
 					  return terminateInput()
 				  }
 			  })
@@ -601,3 +634,4 @@ document.getElementById('file-input').onchange = function(){
 	};
 	reader.readAsText(inputFile);
 };
+

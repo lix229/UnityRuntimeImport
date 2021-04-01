@@ -10,8 +10,8 @@
   left: 100px;
   transform-style: preserve-3d;
   animation-play-state: paused;
-  /* animation-name: animBody; */
   animation-name: animPlaceHolder;
+  /* animation-name: test; */
   animation-duration: 3000ms;
   /* animation-timing-function: linear; */
   animation-iteration-count: infinite;
@@ -73,7 +73,7 @@
   top: 0;
   left: 0;
   margin: 100px 15px 0;
-  width: 30%;
+  width: 360px;
   max-width: 400px;
   min-height: 900px;
   border-radius: 7px;
@@ -86,7 +86,6 @@
 .options {
   /* background: ivory; */
   margin: 20px auto;
-
   height: auto;
 }
 
@@ -306,4 +305,13 @@ textarea {
   background-color: rgb(202, 74, 74);
   color: white;
   transition-duration: 0.3s;
+}
+
+@keyframes test {
+  0% {
+    transform: rotateX(0deg) scale3D(1, 1, 1);
+  }
+  100% {
+    transform: rotateX(760deg);
+  }
 }
