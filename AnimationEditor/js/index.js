@@ -413,15 +413,16 @@ function export_file(){
 function updateLabel() {
 	var path = document.querySelector("#file-input").value;
 	//ori_page = document.querySelector(".custom-file-upload").innerHTML;
-	inputFile = document.querySelector("#file-input").files[0]
-	console.log(inputFile)
+	// inputFile = document.querySelector("#file-input").files[0]
+	// console.log(inputFile)
 	if (path) {
 		var startIndex = (path.indexOf('\\') >= 0 ? path.lastIndexOf('\\') : path.lastIndexOf('/'));
 		var filename = path.substring(startIndex);
 		if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
 			filename = filename.substring(1);
 		}
-		document.querySelector(".custom-file-upload").innerHTML = filename
+		// document.querySelector(".custom-file-upload").innerHTML = `<input type='file' id='file-input' class='file' accept='.txt' oninput='updateLabel()'>${filename}`;
+		document.querySelector(".file-name").innerHTML = `Currently Selected: ${filename}`;
 	}
 
 	// ele.addEventListener("change", handleFiles, false);
@@ -506,32 +507,97 @@ function toggleFileMenu() {
 		document.querySelector(".file-menu-wrapper").style.display = "none";
 		document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' class='file' accept='.txt' oninput='updateLabel()'>Select Local File";
 	}
-	console.log(fileLines)
 }
 
 function abortFile() {
 	// Toggles file menu and reset input queue
 	toggleFileMenu();
+	document.querySelector(".file-name").innerHTML = `Currently Selected: None`;
 	inputFile = undefined
 }
 
 function handleInput() {
-	console.log(fileLines)
+	if (!inputFile) {
+		alert("No file selected.")
+		return
+	}
+	// console.log(fileLines)
+	if (checkFormat()) {
+		console.log('input sec')
+	}
+}
+
+
+  function checkFormat() {
+	  function terminateInput() {
+		// document.querySelector(".custom-file-upload").innerHTML = "<input type='file' id='file-input' class='file' accept='.txt'>Select Local File";
+		alert("Incorrect format.")
+		inputFile = undefined
+		fileLines = []
+		return false
+	  }
+	  var rawFrames = []
+	  fileLines.forEach((line) => {
+		  rawFrames.push(line.split(','))
+	  });
+	  console.log(rawFrames[0])
+	  if (rawFrames[0].length != 3 | rawFrames[1].length != 15 | rawFrames.length < 2 | rawFrames[1][2] != rawFrames[0][0]) {
+		// Check if length of line 1 and 2 are correct
+		return terminateInput()
+	  }
+	  for(var i = 1; i < rawFrames.length; i ++) {
+		  // Check any invalid inputs from line 2
+		  if (i != 1){
+			// Line 3 and forward
+			if (rawFrames[i].length != 13) { // Check length
+				return terminateInput()
+			  }
+			  else if(rawFrames[i][1] != rawFrames[0][0] | rawFrames[i][0] != rawFrames[0][1]) {
+				return terminateInput()
+			  }
+			  var transData = rawFrames[i].slice(2)
+			  transData.forEach((entry) => {
+				  if (isNaN(entry)){
+					console.log(entry)
+					  return terminateInput()
+				  }
+			  })
+		  }
+		  else {
+			if (rawFrames[i].length != 15) { // Check length
+				return terminateInput()
+			}
+			else if(rawFrames[i][2] != rawFrames[0][0] | rawFrames[i][0] != rawFrames[0][1]) {
+				return terminateInput()
+			  }
+			  var transData = rawFrames[i].slice(3)
+			  transData.forEach((entry) => {
+				  if (isNaN(entry)){
+					  return terminateInput()
+				  }
+			  })
+		  }
+	  }
+	return true
+  }	
+
+document.getElementById('file-input').onclick = function() {
+	this.value= null;
 }
 
 document.getElementById('file-input').onchange = function(){
-
+	console.log('This is called')
 	inputFile = this.files[0];
-  
+	updateLabel();
 	var reader = new FileReader();
 	reader.onload = function(progressEvent){
-	  // Read file line by line split by line break
-	  var lines = this.result.split(/\r\n|\n/);
-	  for(var line = 0; line < lines.length; line++){
+		// Read file line by line split by line break
+		var lines = this.result.split(/\r\n|\n/);
+		for(var line = 0; line < lines.length; line++){
 		if (lines[line]) {
 			fileLines.push(lines[line])
 		}
-	  }
+		}
 	};
 	reader.readAsText(inputFile);
-  };
+};

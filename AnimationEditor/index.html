@@ -103,9 +103,10 @@
   <div class="file-menu-wrapper" style="display: none;">
     <p class="file-menu-header">UPLOAD FILE</p>
     <label class="custom-file-upload">
-      <input type="file" id="file-input" class='file' accept=".txt" oninput="updateLabel()">
+      <input type="file" id="file-input" class='file' accept=".txt">
       Select Local File
     </label>
+    <p class="file-name">Currently selected: None</p>
       <div class="file-options-wrapper">
       <button class="file-options-button" id="upload" onclick="handleInput()">UPLOAD</button>
       <button class="file-options-button" id="abort" onclick="abortFile()">ABORT</button>
