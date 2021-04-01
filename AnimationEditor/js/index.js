@@ -228,7 +228,7 @@ function checkFrameExistence() {
 	}
 	else {
 		toggleInputLock(0);
-		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe";
+		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe Here";
 		document.querySelector("#removeFrameButton").style.visibility = "hidden";
 	}
 	if (keyFrameTimes.includes(document.querySelector("#ft").value)) {
@@ -240,7 +240,7 @@ function checkFrameExistence() {
 	}
 	else {
 		// Clear Previously filled fields
-		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe";
+		document.querySelector("#addFrameButton").innerHTML = "Add Keyframe Here";
 		document.querySelector("#removeFrameButton").style.visibility = "hidden";
 		var inputs = document.querySelectorAll('.inputaxis');
 		for (var i of inputs) {
